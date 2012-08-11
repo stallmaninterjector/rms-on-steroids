@@ -1,0 +1,6 @@
+A few months ago, a few freetards and I had the great idea to create a superpowered rms bot on steroids.
+If you weren’t there for that thread, the idea was to do the following:
+-Make a github repo:(here)
+-Modify http://pastebin.com/Q9VwEMfk to find all words to avoid as listed by the GNU project(https://www.gnu.org/philosophy/words-to-avoid.html) and respond with their corresponding paragraph along with a picture of rms(grabbed randomly from the /home/user/rms folder)
+-Deliver freedom to /g/
+Current commit includes original bot, with very few changes.

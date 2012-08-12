@@ -270,12 +270,12 @@ sub scan_posts {
     my $thread_url = shift;
     my %posts;
     my $page = ($browser->get($thread_url, @ns_headers))->content;
-    my $match = 0;
 #   'name' attribute holds post number, post body is inside blockquote tags.
     %posts = $page =~
         /<blockquote class="postMessage" id="m(\d+)">(.*?)<\/blockquote>/gs;
     for my $no (sort keys %posts) {
         $_ = $posts{$no}; 
+        my $match = 0;
 #       Strip any remaining tags in post body.
         s/<.*?>.*?<\/.*?>//g;
         s/<.*?>//g;

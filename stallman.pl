@@ -83,7 +83,7 @@ FIN
 our $commercial_pasta=<<FIN;
 Please don't use "commercial" as a synonym for "nonfree." That confuses two entirely different issues.
 
-A program is commercial if it is developed as a business activity. A commercial program can be free or nonfree, depending on its manner of distribution. Likewise, a program developed by a school or an individual can be free or nonfree, depending on its manner of distribution. The two questions—what sort of entity developed the program and what freedom its users have—are independent.
+A program is commercial if it is developed as a business activity. A commercial program can be free or nonfree, depending on its manner of distribution. Likewise, a program developed by a school or an individual can be free or nonfree, depending on its manner of distribution. The two questions-what sort of entity developed the program and what freedom its users have-are independent.
 
 In the first decade of the free software movement, free software packages were almost always noncommercial; the components of the GNU/Linux operating system were developed by individuals or by nonprofit organizations such as the FSF and universities. Later, in the 1990s, free commercial software started to appear.
 
@@ -105,7 +105,7 @@ To describe people who are not limited to passive use of works, we suggest terms
 FIN
 
 our $digital_goods_pasta=<<FIN;
-The term "digital goods," as applied to copies of works of authorship, erroneously identifies them with physical goods—which cannot be copied, and which therefore have to be manufactured and sold.
+The term "digital goods," as applied to copies of works of authorship, erroneously identifies them with physical goods-which cannot be copied, and which therefore have to be manufactured and sold.
 FIN
 
 our $digital_locks_pasta=<<FIN;
@@ -113,7 +113,7 @@ our $digital_locks_pasta=<<FIN;
 
 Locks are not necessarily an injustice. You probably own several locks, and their keys or codes as well; you may find them useful or troublesome, but either way they don't oppress you, because you can open and close them.
 
-DRM is like a lock placed on you by someone else, who refuses to give you the key — in other words, like handcuffs. Therefore, we call them "digital handcuffs", not "digital locks".
+DRM is like a lock placed on you by someone else, who refuses to give you the key - in other words, like handcuffs. Therefore, we call them "digital handcuffs", not "digital locks".
 
 A number of campaigns have chosen the unwise term "digital locks"; therefore, to correct the mistake, we must work firmly against it. We may support a campaign that criticizes "digital locks", because we might agree with the substance; but when we do, we always state our rejection of that term and conspicuously say "digital handcuffs" so as to set a better example.
 FIN
@@ -137,15 +137,15 @@ It's misleading to use the term "give away" to mean "distribute a program as fre
 FIN
 
 our $hacker_pasta=<<FIN;
-A hacker is someone who enjoys playful cleverness—not necessarily with computers. The programmers in the old MIT free software community of the 60s and 70s referred to themselves as hackers. Around 1980, journalists who discovered the hacker community mistakenly took the term to mean "security breaker."
+A hacker is someone who enjoys playful cleverness-not necessarily with computers. The programmers in the old MIT free software community of the 60s and 70s referred to themselves as hackers. Around 1980, journalists who discovered the hacker community mistakenly took the term to mean "security breaker."
 
 Please don't spread this mistake. People who break security are "crackers."
 FIN
 
 our $ip_pasta=<<FIN;
-Publishers and lawyers like to describe copyright as "intellectual property"—a term also applied to patents, trademarks, and other more obscure areas of law. These laws have so little in common, and differ so much, that it is ill-advised to generalize about them. It is best to talk specifically about "copyright," or about "patents," or about "trademarks."
+Publishers and lawyers like to describe copyright as "intellectual property"-a term also applied to patents, trademarks, and other more obscure areas of law. These laws have so little in common, and differ so much, that it is ill-advised to generalize about them. It is best to talk specifically about "copyright," or about "patents," or about "trademarks."
 
-The term "intellectual property" carries a hidden assumption—that the way to think about all these disparate issues is based on an analogy with physical objects, and our conception of them as physical property.
+The term "intellectual property" carries a hidden assumption-that the way to think about all these disparate issues is based on an analogy with physical objects, and our conception of them as physical property.
 
 When it comes to copying, this analogy disregards the crucial difference between material objects and information: information can be copied and shared almost effortlessly, while material objects can't be.
 
@@ -155,7 +155,7 @@ The hypocrisy of calling these powers "rights" is starting to make the World "In
 FIN
 
 our $lamp_pasta=<<FIN;
-"LAMP" stands for "Linux, Apache, MySQL and PHP"—a common combination of software to use on a web server, except that "Linux" in this context really refers to the GNU/Linux system. So instead of "LAMP" it should be "GLAMP": "GNU, Linux, Apache, MySQL and PHP." 
+"LAMP" stands for "Linux, Apache, MySQL and PHP"-a common combination of software to use on a web server, except that "Linux" in this context really refers to the GNU/Linux system. So instead of "LAMP" it should be "GLAMP": "GNU, Linux, Apache, MySQL and PHP." 
 FIN
 
 our $monetize_pasta=<<FIN;
@@ -169,7 +169,7 @@ In the late 1990s it became feasible to make portable, solid-state digital audio
 FIN
 
 our $open_pasta=<<FIN;
-Please avoid using the term "open" or "open source" as a substitute for "free software". Those terms refer to a different position based on different values. Free software is a political movement; open source is a development model. When referring to the open source position, using its name is appropriate; but please do not use it to label us or our work—that leads people to think we share those views.
+Please avoid using the term "open" or "open source" as a substitute for "free software". Those terms refer to a different position based on different values. Free software is a political movement; open source is a development model. When referring to the open source position, using its name is appropriate; but please do not use it to label us or our work-that leads people to think we share those views.
 FIN
 
 our $pc_pasta=<<FIN;
@@ -292,8 +292,8 @@ sub scan_posts {
         if (/drm|digital\s+rights\s+management/i && ! /lead\syou\sunawares/) {$match = 1;$rms_pasta = $drm_pasta}
         if (/freeware|free-ware/i && ! /often\sin\sthe\s1980s/) {$match = 1;$rms_pasta = $freeware_pasta}
         if (/give\s+away\s+software/i && ! /This\slocution has/) {$match = 1;$rms_pasta = $give_pasta}
-        if (/hacker/i && ! /playful\scleverness—not/) {$match = 1;$rms_pasta = $hacker_pasta}
-        if (/intellectual property/i && ! /hidden\sassumption—that/) {$match = 1;$rms_pasta = $ip_pasta}
+        if (/hacker/i && ! /playful\scleverness-not/) {$match = 1;$rms_pasta = $hacker_pasta}
+        if (/intellectual property/i && ! /hidden\sassumption-that/) {$match = 1;$rms_pasta = $ip_pasta}
         if (/lamp/i && ! /glamp/) {$match = 1;$rms_pasta = $lamp_pasta}
         if (/monetize/i && ! /a\sproductive\sand\sethical\sbusiness/) {$match = 1;$rms_pasta = $monetize_pasta}
         if (/mp3\s+player/i && ! /In\sthe\slate\s1990s/) {$match = 1;$rms_pasta = $mp3_pasta}

@@ -6,7 +6,7 @@
 #
 #   1.  Scan front page of selected boards, collect list of threads.
 #   2.  Scan thread for erroneous usage of "Linux", in the context of
-#       describing a complete operating system.
+#       describing a complete operating system, as well as the use of words that should be avoided.
 #   3.  Interject with random Stallman picture and apt pasta, then sleep.
 #   4.  At the end of each sweep, sleep for a few minutes before repeating
 #       again, ad nauseum.
@@ -22,20 +22,20 @@ use WWW::Mechanize;
 my @threads;
 my $output;
 my $iteration = 0;
-my %boards = ( g => 'boards' );                        # Hash containing boards to sweep.
+my %boards = ( g => 'boards' );                     # Hash containing boards to sweep.
 my $log_file = "$ENV{HOME}/log_interjection";
 my @ns_headers = (
-    'User-Agent' => 'Mozilla/5.0 (X11; U; Linux Gentoo i686; pl; rv:1.8.0.8) Gecko/20061219 Firefox/1.5.0.8',
+    'User-Agent' => 'Mozilla/5.0 (X11; Gentoo; Linux i686; rv:14.0) Gecko/20100101 Firefox/14.0.1',
     'Accept-Charset' => 'iso-8859-1,*,utf-8',
     'Accept-Language' => 'en-US',
     'Referer' => 'https://boards.4chan.org/g/',
 );
 
 our $logging_enabled = 1;
-our $pic_path = "/home/anon/rms/";            # Directory holding delcious Stallman pictures
-our $scan_interval = 15;                           # Interval between each sweep of all boards
+our $pic_path = "/home/anon/rms/";                  # Directory holding delcious Stallman pictures
+our $scan_interval = 10;                            # Interval between each sweep of all boards
 our $min_post_interval = 30;                        # Minimum delay after each individual interjection
-our $post_interval_variation = 15;                  # Upper threshold of random additional delay after interjecting
+our $post_interval_variation = 5;                   # Upper threshold of random additional delay after interjecting
 
 our $total_posts = 0;
 our @handsome_rms_pics = <$pic_path*>;

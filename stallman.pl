@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-#       interjection.pl
+#       stallman.pl
 #
 #   Run in a loop, automating the following sequence of actions:
 #
@@ -25,7 +25,7 @@ my $iteration = 0;
 my %boards = ( g => 'boards' );                        # Hash containing boards to sweep.
 my $log_file = "$ENV{HOME}/log_interjection";
 my @ns_headers = (
-    'User-Agent' => 'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.9) Gecko/2009050519 Iceweasel/3.0.9 (Debian-3.0.9-1)',
+    'User-Agent' => 'Mozilla/5.0 (X11; U; Linux Gentoo i686; pl; rv:1.8.0.8) Gecko/20061219 Firefox/1.5.0.8',
     'Accept-Charset' => 'iso-8859-1,*,utf-8',
     'Accept-Language' => 'en-US',
     'Referer' => 'https://boards.4chan.org/g/',

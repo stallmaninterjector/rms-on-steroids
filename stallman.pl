@@ -22,7 +22,7 @@ use WWW::Mechanize;
 my @threads;
 my $output;
 my $iteration = 0;
-my %boards = ( 3 => 'boards' );                        # Hash containing boards to sweep.
+my %boards = ( g => 'boards' );                        # Hash containing boards to sweep.
 my $log_file = "$ENV{HOME}/log_interjection";
 my @ns_headers = (
     'User-Agent' => 'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.9) Gecko/2009050519 Iceweasel/3.0.9 (Debian-3.0.9-1)',

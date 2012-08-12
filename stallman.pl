@@ -80,10 +80,14 @@ Another meaning (which overlaps that but is not the same thing) is Software as a
 Another meaning is renting a remote physical server, or virtual server. These can be ok under certain circumstances. 
 FIN
 
+our $closed_pasta=<<FIN;
+Describing nonfree software as "closed" clearly refers to the term "open source". In the free software movement, we do not want to be confused with the open source camp, so we are careful to avoid saying things that would encourage people to lump us in with them. For instance, we avoid describing nonfree software as "closed". We call it "nonfree" or "proprietary".
+FIN
+
 our $commercial_pasta=<<FIN;
 Please don't use "commercial" as a synonym for "nonfree." That confuses two entirely different issues.
 
-A program is commercial if it is developed as a business activity. A commercial program can be free or nonfree, depending on its manner of distribution. Likewise, a program developed by a school or an individual can be free or nonfree, depending on its manner of distribution. The two questions-what sort of entity developed the program and what freedom its users have-are independent.
+A program is commercial if it is developed as a business activity. A commercial program can be free or nonfree, depending on its manner of distribution. Likewise, a program developed by a school or an individual can be free or nonfree, depending on its manner of distribution. The two questions--what sort of entity developed the program and what freedom its users have--are independent.
 
 In the first decade of the free software movement, free software packages were almost always noncommercial; the components of the GNU/Linux operating system were developed by individuals or by nonprofit organizations such as the FSF and universities. Later, in the 1990s, free commercial software started to appear.
 
@@ -104,8 +108,20 @@ The shallow economic conception of users as "consumers" tends to go hand in hand
 To describe people who are not limited to passive use of works, we suggest terms such as "individuals" and "citizens".
 FIN
 
+our $content_pasta=<<FIN;
+If you want to describe a feeling of comfort and satisfaction, by all means say you are "content," but using the word as a noun to describe written and other works of authorship adopts an attitude you might rather avoid. It regards these works as a commodity whose purpose is to fill a box and make money. In effect, it disparages the works themselves.
+
+Those who use this term are often the publishers that push for increased copyright power in the name of the authors ("creators," as they say) of the works. The term "content" reveals their real attitude towards these works and their authors. (See Courtney Love's open letter to Steve Case and search for "content provider" in that page. Alas, Ms. Love is unaware that the term "intellectual property" is also biased and confusing.)
+
+However, as long as other people use the term "content provider", political dissidents can well call themselves "malcontent providers".
+
+The term "content management" takes the prize for vacuity. "Content" means "some sort of information," and "management" in this context means "doing something with it." So a "content management system" is a system for doing something to some sort of information. Nearly all programs fit that description.
+
+In most cases, that term really refers to a system for updating pages on a web site. For that, we recommend the term "web site revision system" (WRS).
+FIN
+
 our $digital_goods_pasta=<<FIN;
-The term "digital goods," as applied to copies of works of authorship, erroneously identifies them with physical goods-which cannot be copied, and which therefore have to be manufactured and sold.
+The term "digital goods," as applied to copies of works of authorship, erroneously identifies them with physical goods--which cannot be copied, and which therefore have to be manufactured and sold.
 FIN
 
 our $digital_locks_pasta=<<FIN;
@@ -113,7 +129,7 @@ our $digital_locks_pasta=<<FIN;
 
 Locks are not necessarily an injustice. You probably own several locks, and their keys or codes as well; you may find them useful or troublesome, but either way they don't oppress you, because you can open and close them.
 
-DRM is like a lock placed on you by someone else, who refuses to give you the key - in other words, like handcuffs. Therefore, we call them "digital handcuffs", not "digital locks".
+DRM is like a lock placed on you by someone else, who refuses to give you the key -- in other words, like handcuffs. Therefore, we call them "digital handcuffs", not "digital locks".
 
 A number of campaigns have chosen the unwise term "digital locks"; therefore, to correct the mistake, we must work firmly against it. We may support a campaign that criticizes "digital locks", because we might agree with the substance; but when we do, we always state our rejection of that term and conspicuously say "digital handcuffs" so as to set a better example.
 FIN
@@ -122,6 +138,14 @@ our $drm_pasta=<<FIN;
 "Digital Rights Management" refers to technical schemes designed to impose restrictions on computer users. The use of the word "rights" in this term is propaganda, designed to lead you unawares into seeing the issue from the viewpoint of the few that impose the restrictions, and ignoring that of the general public on whom these restrictions are imposed.
 
 Good alternatives include "Digital Restrictions Management," and "digital handcuffs."
+FIN
+
+our $eco_pasta=<<FIN;
+It is a mistake to describe the free software community, or any human community, as an "ecosystem," because that word implies the absence of ethical judgment.
+
+The term "ecosystem" implicitly suggests an attitude of nonjudgmental observation: don't ask how what should happen, just study and explain what does happen. In an ecosystem, some organisms consume other organisms. We do not ask whether it is fair for an owl to eat a mouse or for a mouse to eat a plant, we only observe that they do so. Species' populations grow or shrink according to the conditions; this is neither right nor wrong, merely an ecological phenomenon.
+
+By contrast, beings that adopt an ethical stance towards their surroundings can decide to preserve things that, on their own, might vanish--such as civil society, democracy, human rights, peace, public health, clean air and water, endangered species, traditional arts…and computer users' freedom. 
 FIN
 
 our $freeware_pasta=<<FIN;
@@ -137,15 +161,15 @@ It's misleading to use the term "give away" to mean "distribute a program as fre
 FIN
 
 our $hacker_pasta=<<FIN;
-A hacker is someone who enjoys playful cleverness-not necessarily with computers. The programmers in the old MIT free software community of the 60s and 70s referred to themselves as hackers. Around 1980, journalists who discovered the hacker community mistakenly took the term to mean "security breaker."
+A hacker is someone who enjoys playful cleverness--not necessarily with computers. The programmers in the old MIT free software community of the 60s and 70s referred to themselves as hackers. Around 1980, journalists who discovered the hacker community mistakenly took the term to mean "security breaker."
 
 Please don't spread this mistake. People who break security are "crackers."
 FIN
 
 our $ip_pasta=<<FIN;
-Publishers and lawyers like to describe copyright as "intellectual property"-a term also applied to patents, trademarks, and other more obscure areas of law. These laws have so little in common, and differ so much, that it is ill-advised to generalize about them. It is best to talk specifically about "copyright," or about "patents," or about "trademarks."
+Publishers and lawyers like to describe copyright as "intellectual property"--a term also applied to patents, trademarks, and other more obscure areas of law. These laws have so little in common, and differ so much, that it is ill-advised to generalize about them. It is best to talk specifically about "copyright," or about "patents," or about "trademarks."
 
-The term "intellectual property" carries a hidden assumption-that the way to think about all these disparate issues is based on an analogy with physical objects, and our conception of them as physical property.
+The term "intellectual property" carries a hidden assumption--that the way to think about all these disparate issues is based on an analogy with physical objects, and our conception of them as physical property.
 
 When it comes to copying, this analogy disregards the crucial difference between material objects and information: information can be copied and shared almost effortlessly, while material objects can't be.
 
@@ -155,7 +179,15 @@ The hypocrisy of calling these powers "rights" is starting to make the World "In
 FIN
 
 our $lamp_pasta=<<FIN;
-"LAMP" stands for "Linux, Apache, MySQL and PHP"-a common combination of software to use on a web server, except that "Linux" in this context really refers to the GNU/Linux system. So instead of "LAMP" it should be "GLAMP": "GNU, Linux, Apache, MySQL and PHP." 
+"LAMP" stands for "Linux, Apache, MySQL and PHP"--a common combination of software to use on a web server, except that "Linux" in this context really refers to the GNU/Linux system. So instead of "LAMP" it should be "GLAMP": "GNU, Linux, Apache, MySQL and PHP." 
+FIN
+
+our $market_pasta=<<FIN;
+It is misleading to describe the users of free software, or the software users in general, as a "market."
+
+This is not to say there is no room for markets in the free software community. If you have a free software support business, then you have clients, and you trade with them in a market. As long as you respect their freedom, we wish you success in your market.
+
+But the free software movement is a social movement, not a business, and the success it aims for is not a market success. We are trying to serve the public by giving it freedom--not competing to draw business away from a rival. To equate this campaign for freedom to a business' efforts for mere success is to deny the importance of freedom and legitimize proprietary software.
 FIN
 
 our $monetize_pasta=<<FIN;
@@ -169,7 +201,7 @@ In the late 1990s it became feasible to make portable, solid-state digital audio
 FIN
 
 our $open_pasta=<<FIN;
-Please avoid using the term "open" or "open source" as a substitute for "free software". Those terms refer to a different position based on different values. Free software is a political movement; open source is a development model. When referring to the open source position, using its name is appropriate; but please do not use it to label us or our work-that leads people to think we share those views.
+Please avoid using the term "open" or "open source" as a substitute for "free software". Those terms refer to a different position based on different values. Free software is a political movement; open source is a development model. When referring to the open source position, using its name is appropriate; but please do not use it to label us or our work--that leads people to think we share those views.
 FIN
 
 our $pc_pasta=<<FIN;
@@ -190,6 +222,16 @@ FIN
 
 our $powerpoint_pasta=<<FIN;
 Please avoid using the term "PowerPoint" to mean any kind of slide presentation. "PowerPoint" is just the name of one particular proprietary program to make presentations, and there are plenty of free program for presentations, such as TeX's beamer class and OpenOffice.org's Impress.
+FIN
+
+our $protection_pasta=<<FIN;
+Publishers' lawyers love to use the term "protection" to describe copyright. This word carries the implication of preventing destruction or suffering; therefore, it encourages people to identify with the owner and publisher who benefit from copyright, rather than with the users who are restricted by it.
+
+It is easy to avoid "protection" and use neutral terms instead. For example, instead of saying, "Copyright protection lasts a very long time," you can say, "Copyright lasts a very long time."
+
+If you want to criticize copyright instead of supporting it, you can use the term "copyright restrictions." Thus, you can say, "Copyright restrictions last a very long time."
+
+The term "protection" is also used to describe malicious features. For instance, "copy protection" is a feature that interferes with copying. From the user's point of view, this is obstruction. So we could call that malicious feature "copy obstruction." More often it is called Digital Restrictions Management (DRM)--see the Defective by Design campaign.
 FIN
 
 our $sellsoft_pasta=<<FIN;
@@ -285,24 +327,29 @@ sub scan_posts {
 
         if (/bsd.style/i && ! /advertising\sclause/) {$match = 1;$rms_pasta = $bsdstyle_pasta}
         if (/cloud\s+computing|the\scloud/i && ! /marketing\sbuzzword/) {$match = 1;$rms_pasta = $cloudcomp_pasta}
+        if (/closed\ssource/i && ! /lump\sus\sin\swith\sthem/) {$match = 1;$rms_pasta = $closed_pasta}
         if (/commercial/i && ! /nonprofit\sorganizations/) {$match = 1;$rms_pasta = $commercial_pasta}
         if (/consumer/i && ! /Digital\sTelevision\sPromotion/) {$match = 1;$rms_pasta = $consumer_pasta}
+        if (/content/i && ! /web\ssite\srevision\ssystem/) {$match = 1;$rms_pasta = $content_pasta}
         if (/digital\s+goods/i && ! /erroneously\sidentifies/) {$match = 1;$rms_pasta = $digital_goods_pasta}
         if (/digital\s+locks?/i && ! /digital\shandcuffs/) {$match = 1;$rms_pasta = $digital_locks_pasta}
         if (/drm|digital\s+rights\s+management/i && ! /lead\syou\sunawares/) {$match = 1;$rms_pasta = $drm_pasta}
-        if (/freeware|free-ware/i && ! /often\sin\sthe\s1980s/) {$match = 1;$rms_pasta = $freeware_pasta}
-        if (/give\s+away\s+software/i && ! /This\slocution has/) {$match = 1;$rms_pasta = $give_pasta}
-        if (/hacker/i && ! /playful\scleverness-not/) {$match = 1;$rms_pasta = $hacker_pasta}
-        if (/intellectual property/i && ! /hidden\sassumption-that/) {$match = 1;$rms_pasta = $ip_pasta}
+        if (/ecosystem/i && ! /implicitly\ssuggests\san\sattitude/) {$match = 1;$rms_pasta = $eco_pasta}
+        if (/freeware|free.ware/i && ! /often\sin\sthe\s1980s/) {$match = 1;$rms_pasta = $freeware_pasta}
+        if (/give\s+away\s+software/i && ! /This\slocution\shas/) {$match = 1;$rms_pasta = $give_pasta}
+        if (/hacker/i && ! /playful\scleverness--not/) {$match = 1;$rms_pasta = $hacker_pasta}
+        if (/intellectual property/i && ! /hidden\sassumption--that/) {$match = 1;$rms_pasta = $ip_pasta}
         if (/lamp/i && ! /glamp/i) {$match = 1;$rms_pasta = $lamp_pasta}
+        if (/software\smarket/i && ! /is\sa\ssocial\smovement/i) {$match = 1;$rms_pasta = $market_pasta}
         if (/monetize/i && ! /a\sproductive\sand\sethical\sbusiness/) {$match = 1;$rms_pasta = $monetize_pasta}
         if (/mp3\s+player/i && ! /In\sthe\slate\s1990s/) {$match = 1;$rms_pasta = $mp3_pasta}
         if (/open\s+source/i && ! /Free\ssoftware\sis\sa\spolitical\smovement/) {$match = 1;$rms_pasta = $open_pasta}
         if (/\s+pc(\s|\.)/i && ! /been\ssuggested\sfor\sa\scomputer\srunning\sWindows/) {$match = 1;$rms_pasta = $pc_pasta}
+        if (/photoshopped|shooped|shopped/i && ! /one\sparticular\simage\sediting\sprogram,/) {$match = 1;$rms_pasta = $ps_pasta}
         if (/\spiracy|pirate/i && ! /sharing\sinformation\swith\syour\sneighbor/) {$match = 1;$rms_pasta = $piracy_pasta}
         if (/powerpoint|power\spoint/i && ! /Impress/) {$match = 1;$rms_pasta = $powerpoint_pasta}
+        if (/(drm|copyright)\sprotection/i && ! /If\syou\swant\sto\scriticize\scopyright/) {$match = 1;$rms_pasta = $protection_pasta}
         if (/sell(ing)?\ssoftware/i && ! /imposing\sproprietary\srestrictions/) {$match = 1;$rms_pasta = $sellsoft_pasta}
-        if (/shopped|photoshopped|shooped/i && ! /one particular\simage\sediting\sprogram,/) {$match = 1;$rms_pasta = $ps_pasta}
         if (/software industry/i && ! /automated\sproduction\sof\smaterial\sgoods/) {$match = 1;$rms_pasta = $softwareindustry_pasta}
         if (/trusted computing/i && ! /scheme\sto\sredesign\scomputers/) {$match = 1;$rms_pasta = $trustedcomp_pasta}
         if (/vendor/i && ! /recommend\sthe\sgeneral\sterm/) {$match = 1;$rms_pasta = $vendor_pasta}

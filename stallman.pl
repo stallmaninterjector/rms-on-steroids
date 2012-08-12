@@ -45,7 +45,7 @@ our $browser = LWP::UserAgent->new;
 
 #pasta list
 our $rms_pasta =<<FIN;
-I'd just like to interject. What you're refering to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
+I'd just like to interject. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the GNU system every day, without realizing it. Through a peculiar turn of events, the version of GNU which is widely used today is often called "Linux", and many of its users are not aware that it is basically the GNU system, developed by the GNU Project.
 
@@ -53,7 +53,7 @@ There really is a Linux, and these people are using it, but it is just a part of
 FIN
 
 our $gnulinux_pasta =<<FIN;
-I'd just like to interject. What you're refering to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
+I'd just like to interject. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the GNU system every day, without realizing it. Through a peculiar turn of events, the version of GNU which is widely used today is often called "Linux", and many of its users are not aware that it is basically the GNU system, developed by the GNU Project.
 
@@ -294,12 +294,12 @@ sub scan_posts {
         if (/give\s+away\s+software/i && ! /This\slocution has/) {$match = 1;$rms_pasta = $give_pasta}
         if (/hacker/i && ! /playful\scleverness-not/) {$match = 1;$rms_pasta = $hacker_pasta}
         if (/intellectual property/i && ! /hidden\sassumption-that/) {$match = 1;$rms_pasta = $ip_pasta}
-        if (/lamp/i && ! /glamp/) {$match = 1;$rms_pasta = $lamp_pasta}
+        if (/lamp/i && ! /glamp/i) {$match = 1;$rms_pasta = $lamp_pasta}
         if (/monetize/i && ! /a\sproductive\sand\sethical\sbusiness/) {$match = 1;$rms_pasta = $monetize_pasta}
         if (/mp3\s+player/i && ! /In\sthe\slate\s1990s/) {$match = 1;$rms_pasta = $mp3_pasta}
         if (/open\s+source/i && ! /Free\ssoftware\sis\sa\spolitical\smovement/) {$match = 1;$rms_pasta = $open_pasta}
-        if (/\s+pc\s+/i && ! /been\ssuggested\sfor\sa\scomputer\srunning\sWindows/) {$match = 1;$rms_pasta = $pc_pasta}
-        if (/piracy|pirate/i && ! /sharing\sinformation\swith\syour\sneighbor/) {$match = 1;$rms_pasta = $piracy_pasta}
+        if (/\s+pc(\s|\.)/i && ! /been\ssuggested\sfor\sa\scomputer\srunning\sWindows/) {$match = 1;$rms_pasta = $pc_pasta}
+        if (/\spiracy|pirate/i && ! /sharing\sinformation\swith\syour\sneighbor/) {$match = 1;$rms_pasta = $piracy_pasta}
         if (/powerpoint|power\spoint/i && ! /Impress/) {$match = 1;$rms_pasta = $powerpoint_pasta}
         if (/sell(ing)?\ssoftware/i && ! /imposing\sproprietary\srestrictions/) {$match = 1;$rms_pasta = $sellsoft_pasta}
         if (/shopped|photoshopped|shooped/i && ! /one particular\simage\sediting\sprogram,/) {$match = 1;$rms_pasta = $ps_pasta}

@@ -330,7 +330,7 @@ sub scan_posts {
         if (/closed\ssource/i && ! /lump\sus\sin\swith\sthem/) {$match = 1;$rms_pasta = $closed_pasta}
         if (/commercial/i && ! /nonprofit\sorganizations/) {$match = 1;$rms_pasta = $commercial_pasta}
         if (/consumer/i && ! /Digital\sTelevision\sPromotion/) {$match = 1;$rms_pasta = $consumer_pasta}
-        if (/content/i && ! /web\ssite\srevision\ssystem/) {$match = 1;$rms_pasta = $content_pasta}
+        if (/content/i && ! /web\ssite\srevision\ssystem|economic\stheory/) {$match = 1;$rms_pasta = $content_pasta}
         if (/digital\s+goods/i && ! /erroneously\sidentifies/) {$match = 1;$rms_pasta = $digital_goods_pasta}
         if (/digital\s+locks?/i && ! /digital\shandcuffs/) {$match = 1;$rms_pasta = $digital_locks_pasta}
         if (/drm|digital\s+rights\s+management/i && ! /lead\syou\sunawares/) {$match = 1;$rms_pasta = $drm_pasta}

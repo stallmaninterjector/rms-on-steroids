@@ -338,7 +338,7 @@ sub scan_posts {
         if (/freeware|free.ware/i && ! /often\sin\sthe\s1980s/) {$match = 1;$rms_pasta = $freeware_pasta}
         if (/give\s+away\s+software/i && ! /This\slocution\shas/) {$match = 1;$rms_pasta = $give_pasta}
         if (/hacker/i && ! /playful\scleverness--not/) {$match = 1;$rms_pasta = $hacker_pasta}
-        if (/intellectual property/i && ! /hidden\sassumption--that/) {$match = 1;$rms_pasta = $ip_pasta}
+        if (/intellectual property/i && ! /hidden\sassumption--that|web\ssite\srevision\ssystem/) {$match = 1;$rms_pasta = $ip_pasta}
         if (/lamp/i && ! /glamp/i) {$match = 1;$rms_pasta = $lamp_pasta}
         if (/software\smarket/i && ! /is\sa\ssocial\smovement/i) {$match = 1;$rms_pasta = $market_pasta}
         if (/monetize/i && ! /a\sproductive\sand\sethical\sbusiness/) {$match = 1;$rms_pasta = $monetize_pasta}

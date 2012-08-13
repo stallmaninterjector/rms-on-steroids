@@ -45,11 +45,12 @@ my @ns_headers = (
 );
 
 our $logging_enabled = 1;
-our $pic_path = "/home/anon/rms/";                  # Directory holding delcious Stallman pictures
+our $distro_warn = 1;                               # Warn users about non-freedom respecting distros
+our $pic_path = "$ENV{HOME}/rms/";                  # Directory holding delcious Stallman pictures
 our $scan_interval = 10;                            # Interval between each sweep of all boards
 our $min_post_interval = 30;                        # Minimum delay after each individual interjection
 our $post_interval_variation = 5;                   # Upper threshold of random additional delay after interjecting
-
+our $password = int(rand(99999999));                # Generate random password for stallman
 our $total_posts = 0;
 our @handsome_rms_pics = <$pic_path*>;
 our @interjected;                                   # Track posts already responded to.
@@ -266,6 +267,67 @@ Please don't use the term "vendor" to refer generally to anyone that develops or
 FIN
 
 
+#distro pasta list
+
+
+our $arch_pasta=<<FIN;
+Arch has the two usual problems: there's no clear policy about what software can be included, and nonfree blobs are shipped with their kernel. Arch also has no policy about not distributing nonfree software through their normal channels.
+FIN
+
+our $centos_pasta=<<FIN;
+We're not aware of problems in CentOS aside from the two usual ones: there's no clear policy about what software can be included, and nonfree blobs are shipped with the kernel. Of course, with no firm policy in place, there might be other nonfree software included that we missed.
+FIN
+
+our $debian_pasta=<<FIN;
+Debian's Social Contract states the goal of making Debian entirely free software, and Debian conscientiously keeps nonfree software out of the official Debian system. However, Debian also provides a repository of nonfree software. According to the project, this software is "not part of the Debian system," but the repository is hosted on many of the project's main servers, and people can readily learn about these nonfree packages by browsing Debian's online package database.
+
+There is also a "contrib" repository; its packages are free, but some of them exist to load separately distributed proprietary programs. This too is not thoroughly separated from the main Debian distribution.
+
+Previous releases of Debian included nonfree blobs with the kernel. With the release of Debian 6.0 ("squeeze") in February 2011, these blobs have been moved out of the main distribution to separate packages in the nonfree repository. However, the problem partly remains: the installer in some cases recommends these nonfree firmware files for the peripherals on the machine.
+FIN
+
+our $fedora_pasta=<<FIN;
+Fedora does have a clear policy about what can be included in the distribution, and it seems to be followed carefully. The policy requires that most software and all fonts be available under a free license, but makes an exception for certain kinds of nonfree firmware. Unfortunately, the decision to allow that firmware in the policy keeps Fedora from meeting the free system distribution guidelines.
+FIN
+
+
+#gentoo is an exception
+
+
+our $mandriva_pasta=<<FIN;
+Mandriva does have a stated policy about what can be included in the main system. It's based on Fedora's, which means that it also allows certain kinds of nonfree firmware to be included. On top of that, it permits software released under the original Artistic License to be included, even though that's a nonfree license.
+
+Mandriva also provides nonfree software through dedicated repositories.
+FIN
+
+our $opensuse_pasta=<<FIN;
+OpenSUSE offers its users access to a repository of nonfree software. This is an instance of how "open" is weaker than "free".
+FIN
+
+our $redhat_pasta=<<FIN;
+Red Hat's enterprise distribution primarily follows the same licensing policies as Fedora, with one exception. Thus, we don't endorse it for the same reasons. In addition to those, Red Hat has no policy against making nonfree software available for the system through supplementary distribution channels.
+FIN
+
+our $slackware_pasta=<<FIN;
+Slackware has the two usual problems: there's no clear policy about what software can be included, and nonfree blobs are included in the kernel. It also ships with the nonfree image-viewing program xv. Of course, with no firm policy in place, there might be other nonfree software included that we missed.
+FIN
+
+our $ubuntu_pasta=<<FIN;
+Ubuntu provides specific repositories of nonfree software, and Canonical expressly promotes and recommends nonfree software under the Ubuntu name in some of their distribution channels. Ubuntu offers the option to install only free packages, which means it also offers the option to install nonfree packages too. In addition, the version of the kernel, included in Ubuntu contains firmware blobs.
+
+Ubuntu's trademark policy prohibits commercial redistribution of exact copies of Ubuntu, denying an important freedom. 
+FIN
+
+our $bsd_pasta=<<FIN;
+FreeBSD, NetBSD, and OpenBSD all include instructions for obtaining nonfree programs in their ports system. In addition, their kernels include nonfree firmware blobs.
+
+Nonfree firmware programs used with the kernel, are called "blobs", and that's how we use the term. In BSD parlance, the term "blob" means something else: a nonfree driver. OpenBSD and perhaps other BSD distributions (called "projects" by BSD developers) have the policy of not including those. That is the right policy, as regards drivers; but when the developers say these distributions "contain no blobs", it causes a misunderstanding. They are not talking about firmware blobs.
+
+No BSD distribution has policies against proprietary binary-only firmware that might be loaded even by free drivers.
+FIN
+
+
+
 
 
 open LOGGING, ">", $log_file or die $!;   # Log file location
@@ -279,6 +341,7 @@ print LOGGING "...logging to $log_file\n";
 &log_msg("### \$scan_interval:\t\t$scan_interval");
 &log_msg("### \$min_post_interval:\t\t$min_post_interval");
 &log_msg("### \$post_interval_variation:\t$post_interval_variation");
+&log_msg("### \$password:\t$password");
 &log_msg("###");
 &log_msg("### ----------------------------------------- ###");
 &log_msg("Entering main loop...");
@@ -334,39 +397,58 @@ sub scan_posts {
 #       Strip any remaining tags in post body.
         s/<.*?>.*?<\/.*?>//g;
         s/<.*?>//g;
+#       Make it pretty
+        s/&quot/"/g;
+        s/&gt;/>/g;
+        s/&lt;/</g;
+        s/&amp;/"/g;
+        s/&#44;/,/g;
 
 
+#Distro warnings take least priority        
+        if ( $distro_warn ){
+        if (/\sarch\s/i && ! /two usual problems/) {$match = 1;$rms_pasta = $arch_pasta}
+        if (/centos/i && ! /two usual ones/) {$match = 1;$rms_pasta = $centos_pasta}
+        if (/debian/i && ! /separately distributed proprietary programs/) {$match = 1;$rms_pasta = $debian_pasta}
+        if (/fedora/i && ! /allow that firmware in the/) {$match = 1;$rms_pasta = $fedora_pasta}
+        if (/mandriva/i && ! /it permits software released/) {$match = 1;$rms_pasta = $mandriva_pasta}
+        if (/opensuse/i && ! /offers its users access to a repository/) {$match = 1;$rms_pasta = $opensuse_pasta}
+        if (/red hat|rhel/i && ! /enterprise distribution primarily/) {$match = 1;$rms_pasta = $redhat_pasta}
+        if (/slackware/i && ! /two usual problems/) {$match = 1;$rms_pasta = $slackware_pasta}
+        if (/ubuntu/i && ! /provides specific repositories of nonfree/) {$match = 1;$rms_pasta = $ubuntu_pasta}
+        if (/(free|open|net).?bsd/i && ! /all include instructions for obtaining nonfree/) {$match = 1;$rms_pasta = $bsd_pasta}
+        }
 #GNU/Linux pasta goes last, takes priority over other pastas
 
-        if (/bsd.style/i && ! /advertising\sclause/) {$match = 1;$rms_pasta = $bsdstyle_pasta}
-        if (/cloud\s+computing|the\scloud/i && ! /marketing\sbuzzword/) {$match = 1;$rms_pasta = $cloudcomp_pasta}
-        if (/closed\ssource/i && ! /lump\sus\sin\swith\sthem/) {$match = 1;$rms_pasta = $closed_pasta}
-        if (/commercial/i && ! /nonprofit\sorganizations/) {$match = 1;$rms_pasta = $commercial_pasta}
-        if (/consumer/i && ! /Digital\sTelevision\sPromotion/) {$match = 1;$rms_pasta = $consumer_pasta}
-        if (/content/i && ! /web\ssite\srevision\ssystem|economic\stheory/) {$match = 1;$rms_pasta = $content_pasta}
-        if (/digital\s+goods/i && ! /erroneously\sidentifies/) {$match = 1;$rms_pasta = $digital_goods_pasta}
-        if (/digital\s+locks?/i && ! /digital\shandcuffs/) {$match = 1;$rms_pasta = $digital_locks_pasta}
-        if (/drm|digital\s+rights\s+management/i && ! /lead\syou\sunawares/) {$match = 1;$rms_pasta = $drm_pasta}
-        if (/ecosystem/i && ! /implicitly\ssuggests\san\sattitude/) {$match = 1;$rms_pasta = $eco_pasta}
-        if (/freeware|free.ware/i && ! /often\sin\sthe\s1980s/) {$match = 1;$rms_pasta = $freeware_pasta}
-        if (/give\s+away\s+software/i && ! /This\slocution\shas/) {$match = 1;$rms_pasta = $give_pasta}
-        if (/hacker/i && ! /playful\scleverness--not/) {$match = 1;$rms_pasta = $hacker_pasta}
-        if (/intellectual property/i && ! /hidden\sassumption--that|web\ssite\srevision\ssystem/) {$match = 1;$rms_pasta = $ip_pasta}
+        if (/bsd.style/i && ! /advertising clause/) {$match = 1;$rms_pasta = $bsdstyle_pasta}
+        if (/cloud computing|the cloud/i && ! /marketing buzzword/) {$match = 1;$rms_pasta = $cloudcomp_pasta}
+        if (/closed source/i && ! /lump us in with them/) {$match = 1;$rms_pasta = $closed_pasta}
+        if (/commercial/i && ! /nonprofit organizations|Canonical expressly promotes|encourages people to imagine/) {$match = 1;$rms_pasta = $commercial_pasta}
+        if (/consumer/i && ! /Digital Television Promotion/) {$match = 1;$rms_pasta = $consumer_pasta}
+        if (/content/i && ! /(am|are) content|web site revision system|economic theory/) {$match = 1;$rms_pasta = $content_pasta}
+        if (/digital goods/i && ! /erroneously identifies/) {$match = 1;$rms_pasta = $digital_goods_pasta}
+        if (/digital locks?/i && ! /digital handcuffs/) {$match = 1;$rms_pasta = $digital_locks_pasta}
+        if (/drm|digital rights management/i && ! /lead you unawares/) {$match = 1;$rms_pasta = $drm_pasta}
+        if (/ecosystem/i && ! /implicitly suggests an attitude/) {$match = 1;$rms_pasta = $eco_pasta}
+        if (/freeware|free.ware/i && ! /often in the 1980s/) {$match = 1;$rms_pasta = $freeware_pasta}
+        if (/give away software/i && ! /This locution has/) {$match = 1;$rms_pasta = $give_pasta}
+        if (/hacker/i && ! /playful cleverness--not/) {$match = 1;$rms_pasta = $hacker_pasta}
+        if (/intellectual property/i && ! /hidden assumption--that|web site revision system/) {$match = 1;$rms_pasta = $ip_pasta}
         if (/lamp/i && ! /glamp/i) {$match = 1;$rms_pasta = $lamp_pasta}
-        if (/software\smarket/i && ! /is\sa\ssocial\smovement/i) {$match = 1;$rms_pasta = $market_pasta}
-        if (/monetize/i && ! /a\sproductive\sand\sethical\sbusiness/) {$match = 1;$rms_pasta = $monetize_pasta}
-        if (/mp3\s+player/i && ! /In\sthe\slate\s1990s/) {$match = 1;$rms_pasta = $mp3_pasta}
-        if (/open\s+source/i && ! /Free\ssoftware\sis\sa\spolitical\smovement/) {$match = 1;$rms_pasta = $open_pasta}
-        if (/\s+pc(\s|\.)/i && ! /been\ssuggested\sfor\sa\scomputer\srunning\sWindows/) {$match = 1;$rms_pasta = $pc_pasta}
-        if (/photoshopped|shooped|shopped/i && ! /one\sparticular\simage\sediting\sprogram,/) {$match = 1;$rms_pasta = $ps_pasta}
-        if (/\spiracy|pirate/i && ! /sharing\sinformation\swith\syour\sneighbor/) {$match = 1;$rms_pasta = $piracy_pasta}
-        if (/powerpoint|power\spoint/i && ! /Impress/) {$match = 1;$rms_pasta = $powerpoint_pasta}
-        if (/(drm|copyright)\sprotection/i && ! /If\syou\swant\sto\scriticize\scopyright/) {$match = 1;$rms_pasta = $protection_pasta}
-        if (/sell(ing)?\ssoftware/i && ! /imposing\sproprietary\srestrictions/) {$match = 1;$rms_pasta = $sellsoft_pasta}
-        if (/software industry/i && ! /automated\sproduction\sof\smaterial\sgoods/) {$match = 1;$rms_pasta = $softwareindustry_pasta}
-        if (/trusted computing/i && ! /scheme\sto\sredesign\scomputers/) {$match = 1;$rms_pasta = $trustedcomp_pasta}
-        if (/vendor/i && ! /recommend\sthe\sgeneral\sterm/) {$match = 1;$rms_pasta = $vendor_pasta}
-        if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /GNU\s*(\/|plus|with|and|\+)\s*(Linux|Lunix)/i) {$match = 1;$rms_pasta = $gnulinux_pasta}
+        if (/software market/i && ! /is a social movement/i) {$match = 1;$rms_pasta = $market_pasta}
+        if (/monetize/i && ! /a productive and ethical business/) {$match = 1;$rms_pasta = $monetize_pasta}
+        if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$rms_pasta = $mp3_pasta}
+        if (/open source/i && ! /Free software is a political movement|lump us in with them/) {$match = 1;$rms_pasta = $open_pasta}
+        if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$rms_pasta = $pc_pasta}
+        if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$rms_pasta = $ps_pasta}
+        if (/\spiracy|pirate/i && ! /sharing information with your neighbor/) {$match = 1;$rms_pasta = $piracy_pasta}
+        if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$rms_pasta = $powerpoint_pasta}
+        if (/(drm|copyright) protection/i && ! /If you want to criticize copyright/) {$match = 1;$rms_pasta = $protection_pasta}
+        if (/sell(ing)? software/i && ! /imposing proprietary restrictions/) {$match = 1;$rms_pasta = $sellsoft_pasta}
+        if (/software industry/i && ! /automated production of material goods/) {$match = 1;$rms_pasta = $softwareindustry_pasta}
+        if (/trusted computing/i && ! /scheme to redesign computers/) {$match = 1;$rms_pasta = $trustedcomp_pasta}
+        if (/vendor/i && ! /recommend the general term/) {$match = 1;$rms_pasta = $vendor_pasta}
+        if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /(GNU|Gah?n(oo|ew))\s*(.|plus|with|and|slash)\s*(L(oo|i|u)n(oo|i|u)(x|cks))/i) {$match = 1;$rms_pasta = $gnulinux_pasta}
 
             if ( $match ){
             next if grep {$_ == $no} @interjected;
@@ -374,6 +456,7 @@ sub scan_posts {
             &log_msg("URL: $thread_url post: $no");
             &log_msg("POST: $_");
 
+            print "Post Number: $no\nPost: $_";
             &interject($thread_url, $no, $page);
             push @interjected, $no;
             $total_posts++;
@@ -391,8 +474,8 @@ sub interject {
 	
 	my ($challenge) = $output =~ m/challenge : '([A-z0-9-]+)',/;
 	my $outfile = random_string() . ".jpg";
-	return if (invoke_curl("http://www.google.com/recaptcha/api/image?c=$challenge -o $outfile"));
-
+	if ( $os eq "Linux") {return if (invoke_curl("http://www.google.com/recaptcha/api/image?c=$challenge -o /tmp/$outfile"));}
+    else { return if (invoke_curl("http://www.google.com/recaptcha/api/image?c=$challenge -o $outfile"));}
 	my $vericode;
 
 		if ($os) {
@@ -400,7 +483,7 @@ sub interject {
 			if ($os eq "Darwin") {
 				system "qlmanage -p $outfile &> /dev/null &"; # Haven't tested this myself.
 			} elsif ($os eq "Linux") {
-				system "display $outfile &> /dev/null &";
+				system "display /tmp/$outfile &> /dev/null &";
 			}
 		} else {
 			print "Open $outfile to see the CAPTCHA, then enter it here:\n";
@@ -413,7 +496,8 @@ sub interject {
 		}
 
 	# Reset the referrer and delete the image
-	unlink $outfile;
+	if ( $os eq "Linux") {unlink "/tmp/$outfile";}
+    else {unlink $outfile;}
 
     my ($url, $post_no, $page, ) = @_;
     my ($form, $interjection, $submit_button, $pic);
@@ -430,8 +514,15 @@ sub interject {
                             com => $interjection,
                             recaptcha_challenge_field => $challenge,
                             recaptcha_response_field => $vericode,
-                            upfile => $pic},
+                            upfile => $pic,
+                            pwd => $password},
                             );
+
+    if ( $mechanize->status == "403"){print "Banned by Freedom-hating mods ;_;\n"; exit}
+    if ( grep /successful/i, $mechanize->content()){print "Freedom Delivered!\n\n"} 
+    if ( grep /mistyped/i, $mechanize->content()){print "Mistyped Captcha\n"; &interject($url, $post_no, $page); return} 
+    if ( grep /flood/i, $mechanize->content()){print "Flood Detected\n"} 
+    if ( grep /duplicate/i, $mechanize->content()){print "Duplicate Image\n"} 
 
     sleep($min_post_interval + rand($post_interval_variation)); 
 }

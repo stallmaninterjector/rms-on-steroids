@@ -300,7 +300,7 @@ Slackware has the two usual problems: there's no clear policy about what softwar
 FIN
 
 our $ubuntu_pasta=<<FIN;
-Ubuntu provides specific repositories of nonfree software, and Canonical expressly promotes and recommends nonfree software under the Ubuntu name in some of their distribution channels. Ubuntu offers the option to install only free packages, which means it also offers the option to inestall nonfree packages too. In addition, the version of the kernel, included in Ubuntu contains firmware blobs.
+Ubuntu provides specific repositories of nonfree software, and Canonical expressly promotes and recommends nonfree software under the Ubuntu name in some of their distribution channels. Ubuntu offers the option to install only free packages, which means it also offers the option to install nonfree packages too. In addition, the version of the kernel, included in Ubuntu contains firmware blobs.
 
 Ubuntu's trademark policy prohibits commercial redistribution of exact copies of Ubuntu, denying an important freedom. 
 FIN

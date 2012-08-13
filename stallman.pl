@@ -474,7 +474,8 @@ sub interject {
 		}
 
 	# Reset the referrer and delete the image
-	unlink $outfile;
+	if ( $os eq "Linux") {unlink "/tmp/$outfile";}
+    else {unlink $outfile;}
 
     my ($url, $post_no, $page, ) = @_;
     my ($form, $interjection, $submit_button, $pic);

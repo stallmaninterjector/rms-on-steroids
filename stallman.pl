@@ -37,7 +37,7 @@ our $pic_path = "/home/anon/rms/";                  # Directory holding delcious
 our $scan_interval = 10;                            # Interval between each sweep of all boards
 our $min_post_interval = 30;                        # Minimum delay after each individual interjection
 our $post_interval_variation = 5;                   # Upper threshold of random additional delay after interjecting
-
+our $password = int(rand(99999999));                # Generate random password for stallman
 our $total_posts = 0;
 our @handsome_rms_pics = <$pic_path*>;
 our @interjected;                                   # Track posts already responded to.
@@ -328,6 +328,7 @@ print LOGGING "...logging to $log_file\n";
 &log_msg("### \$scan_interval:\t\t$scan_interval");
 &log_msg("### \$min_post_interval:\t\t$min_post_interval");
 &log_msg("### \$post_interval_variation:\t$post_interval_variation");
+&log_msg("### \$password:\t$password");
 &log_msg("###");
 &log_msg("### ----------------------------------------- ###");
 &log_msg("Entering main loop...");
@@ -492,7 +493,8 @@ sub interject {
                             com => $interjection,
                             recaptcha_challenge_field => $challenge,
                             recaptcha_response_field => $vericode,
-                            upfile => $pic},
+                            upfile => $pic,
+                            pwd => $password},
                             );
 
     sleep($min_post_interval + rand($post_interval_variation)); 

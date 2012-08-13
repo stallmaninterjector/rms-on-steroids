@@ -24,3 +24,4 @@ mechanize
 
 Todo:
 Resize image before upload
+Circumvent filters(unicode?)

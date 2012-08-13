@@ -386,7 +386,7 @@ sub scan_posts {
 
 #Distro warnings take least priority        
         if ( $distro_warn ){
-        if (/arch/i && ! /two usual problems/) {$match = 1;$rms_pasta = $arch_pasta}
+        if (/\sarch\s/i && ! /two usual problems/) {$match = 1;$rms_pasta = $arch_pasta}
         if (/centos/i && ! /two usual ones/) {$match = 1;$rms_pasta = $centos_pasta}
         if (/debian/i && ! /separately distributed proprietary programs/) {$match = 1;$rms_pasta = $debian_pasta}
         if (/fedora/i && ! /allow that firmware in the/) {$match = 1;$rms_pasta = $fedora_pasta}

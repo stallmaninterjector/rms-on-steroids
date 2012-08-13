@@ -1,16 +1,3 @@
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-
-#   You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 #!/usr/bin/perl
 #
 #       stallman.pl
@@ -23,6 +10,19 @@
 #   3.  Interject with random Stallman picture and apt pasta, then sleep.
 #   4.  At the end of each sweep, sleep for a few minutes before repeating
 #       again, ad nauseum.
+
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+#   You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use warnings;
 use strict;
@@ -517,6 +517,7 @@ sub interject {
                             upfile => $pic,
                             pwd => $password},
                             );
+    unlink $pic;
 
     if ( $mechanize->status == "403"){print "Banned by Freedom-hating mods ;_;\n"; exit}
     if ( grep /successful/i, $mechanize->content()){print "Freedom Delivered!\n\n"} 
@@ -535,10 +536,11 @@ sub log_msg {
 }
 
 sub select_pic {
-#   Select a file from the array and remove its entry.
-
-    log "No more sexy RMS pictures left... ;_;\n" && exit if ! @handsome_rms_pics;
-    return splice @handsome_rms_pics, int(rand(@handsome_rms_pics)), 1;
+#   Select a file from the array, resize it, and give it a random unix timestamp.
+    log "No RMS pictures in folder... ;_;\n" && exit if ! @handsome_rms_pics;
+    my $filename = "/tmp/" . int(time() - rand(9999999)) . int(rand(888) + 100) . ".jpg";
+    system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% ' . $filename;
+    return $filename;
 }
 
 

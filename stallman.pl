@@ -258,11 +258,11 @@ FIN
 
 
 our $arch_pasta=<<FIN;
-Arch has the two usual problems: there's no clear policy about what software can be included, and nonfree blobs are shipped with their kernel, Linux. Arch also has no policy about not distributing nonfree software through their normal channels.
+Arch has the two usual problems: there's no clear policy about what software can be included, and nonfree blobs are shipped with their kernel. Arch also has no policy about not distributing nonfree software through their normal channels.
 FIN
 
 our $centos_pasta=<<FIN;
-We're not aware of problems in CentOS aside from the two usual ones: there's no clear policy about what software can be included, and nonfree blobs are shipped with Linux, the kernel. Of course, with no firm policy in place, there might be other nonfree software included that we missed.
+We're not aware of problems in CentOS aside from the two usual ones: there's no clear policy about what software can be included, and nonfree blobs are shipped with the kernel. Of course, with no firm policy in place, there might be other nonfree software included that we missed.
 FIN
 
 our $debian_pasta=<<FIN;
@@ -270,7 +270,7 @@ Debian's Social Contract states the goal of making Debian entirely free software
 
 There is also a "contrib" repository; its packages are free, but some of them exist to load separately distributed proprietary programs. This too is not thoroughly separated from the main Debian distribution.
 
-Previous releases of Debian included nonfree blobs with Linux, the kernel. With the release of Debian 6.0 ("squeeze") in February 2011, these blobs have been moved out of the main distribution to separate packages in the nonfree repository. However, the problem partly remains: the installer in some cases recommends these nonfree firmware files for the peripherals on the machine.
+Previous releases of Debian included nonfree blobs with the kernel. With the release of Debian 6.0 ("squeeze") in February 2011, these blobs have been moved out of the main distribution to separate packages in the nonfree repository. However, the problem partly remains: the installer in some cases recommends these nonfree firmware files for the peripherals on the machine.
 FIN
 
 our $fedora_pasta=<<FIN;
@@ -296,11 +296,11 @@ Red Hat's enterprise distribution primarily follows the same licensing policies 
 FIN
 
 our $slackware_pasta=<<FIN;
-Slackware has the two usual problems: there's no clear policy about what software can be included, and nonfree blobs are included in Linux, the kernel. It also ships with the nonfree image-viewing program xv. Of course, with no firm policy in place, there might be other nonfree software included that we missed.
+Slackware has the two usual problems: there's no clear policy about what software can be included, and nonfree blobs are included in the kernel. It also ships with the nonfree image-viewing program xv. Of course, with no firm policy in place, there might be other nonfree software included that we missed.
 FIN
 
 our $ubuntu_pasta=<<FIN;
-Ubuntu provides specific repositories of nonfree software, and Canonical expressly promotes and recommends nonfree software under the Ubuntu name in some of their distribution channels. Ubuntu offers the option to install only free packages, which means it also offers the option to install nonfree packages too. In addition, the version of Linux, the kernel, included in Ubuntu contains firmware blobs.
+Ubuntu provides specific repositories of nonfree software, and Canonical expressly promotes and recommends nonfree software under the Ubuntu name in some of their distribution channels. Ubuntu offers the option to install only free packages, which means it also offers the option to install nonfree packages too. In addition, the version of the kernel, included in Ubuntu contains firmware blobs.
 
 Ubuntu's trademark policy prohibits commercial redistribution of exact copies of Ubuntu, denying an important freedom. 
 FIN
@@ -308,7 +308,7 @@ FIN
 our $bsd_pasta=<<FIN;
 FreeBSD, NetBSD, and OpenBSD all include instructions for obtaining nonfree programs in their ports system. In addition, their kernels include nonfree firmware blobs.
 
-Nonfree firmware programs used with Linux, the kernel, are called "blobs", and that's how we use the term. In BSD parlance, the term "blob" means something else: a nonfree driver. OpenBSD and perhaps other BSD distributions (called "projects" by BSD developers) have the policy of not including those. That is the right policy, as regards drivers; but when the developers say these distributions "contain no blobs", it causes a misunderstanding. They are not talking about firmware blobs.
+Nonfree firmware programs used with the kernel, are called "blobs", and that's how we use the term. In BSD parlance, the term "blob" means something else: a nonfree driver. OpenBSD and perhaps other BSD distributions (called "projects" by BSD developers) have the policy of not including those. That is the right policy, as regards drivers; but when the developers say these distributions "contain no blobs", it causes a misunderstanding. They are not talking about firmware blobs.
 
 No BSD distribution has policies against proprietary binary-only firmware that might be loaded even by free drivers.
 FIN

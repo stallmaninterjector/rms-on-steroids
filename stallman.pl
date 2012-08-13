@@ -325,35 +325,35 @@ sub scan_posts {
 
 #GNU/Linux pasta goes last, takes priority over other pastas
 
-        if (/bsd.style/i && ! /advertising\sclause/) {$match = 1;$rms_pasta = $bsdstyle_pasta}
-        if (/cloud\s+computing|the\scloud/i && ! /marketing\sbuzzword/) {$match = 1;$rms_pasta = $cloudcomp_pasta}
-        if (/closed\ssource/i && ! /lump\sus\sin\swith\sthem/) {$match = 1;$rms_pasta = $closed_pasta}
-        if (/commercial/i && ! /nonprofit\sorganizations/) {$match = 1;$rms_pasta = $commercial_pasta}
-        if (/consumer/i && ! /Digital\sTelevision\sPromotion/) {$match = 1;$rms_pasta = $consumer_pasta}
-        if (/content/i && ! /web\ssite\srevision\ssystem|economic\stheory/) {$match = 1;$rms_pasta = $content_pasta}
-        if (/digital\s+goods/i && ! /erroneously\sidentifies/) {$match = 1;$rms_pasta = $digital_goods_pasta}
-        if (/digital\s+locks?/i && ! /digital\shandcuffs/) {$match = 1;$rms_pasta = $digital_locks_pasta}
-        if (/drm|digital\s+rights\s+management/i && ! /lead\syou\sunawares/) {$match = 1;$rms_pasta = $drm_pasta}
-        if (/ecosystem/i && ! /implicitly\ssuggests\san\sattitude/) {$match = 1;$rms_pasta = $eco_pasta}
-        if (/freeware|free.ware/i && ! /often\sin\sthe\s1980s/) {$match = 1;$rms_pasta = $freeware_pasta}
-        if (/give\s+away\s+software/i && ! /This\slocution\shas/) {$match = 1;$rms_pasta = $give_pasta}
-        if (/hacker/i && ! /playful\scleverness--not/) {$match = 1;$rms_pasta = $hacker_pasta}
-        if (/intellectual property/i && ! /hidden\sassumption--that|web\ssite\srevision\ssystem/) {$match = 1;$rms_pasta = $ip_pasta}
+        if (/bsd.style/i && ! /advertising clause/) {$match = 1;$rms_pasta = $bsdstyle_pasta}
+        if (/cloud computing|the cloud/i && ! /marketing buzzword/) {$match = 1;$rms_pasta = $cloudcomp_pasta}
+        if (/closed source/i && ! /lump us in with them/) {$match = 1;$rms_pasta = $closed_pasta}
+        if (/commercial/i && ! /nonprofit organizations/) {$match = 1;$rms_pasta = $commercial_pasta}
+        if (/consumer/i && ! /Digital Television Promotion/) {$match = 1;$rms_pasta = $consumer_pasta}
+        if (/content/i && ! /(am|are) content|web site revision system|economic theory/) {$match = 1;$rms_pasta = $content_pasta}
+        if (/digital goods/i && ! /erroneously identifies/) {$match = 1;$rms_pasta = $digital_goods_pasta}
+        if (/digital locks?/i && ! /digital handcuffs/) {$match = 1;$rms_pasta = $digital_locks_pasta}
+        if (/drm|digital rights management/i && ! /lead you unawares/) {$match = 1;$rms_pasta = $drm_pasta}
+        if (/ecosystem/i && ! /implicitly suggests an attitude/) {$match = 1;$rms_pasta = $eco_pasta}
+        if (/freeware|free.ware/i && ! /often in the 1980s/) {$match = 1;$rms_pasta = $freeware_pasta}
+        if (/give away software/i && ! /This locution has/) {$match = 1;$rms_pasta = $give_pasta}
+        if (/hacker/i && ! /playful cleverness--not/) {$match = 1;$rms_pasta = $hacker_pasta}
+        if (/intellectual property/i && ! /hidden assumption--that|web site revision system/) {$match = 1;$rms_pasta = $ip_pasta}
         if (/lamp/i && ! /glamp/i) {$match = 1;$rms_pasta = $lamp_pasta}
-        if (/software\smarket/i && ! /is\sa\ssocial\smovement/i) {$match = 1;$rms_pasta = $market_pasta}
-        if (/monetize/i && ! /a\sproductive\sand\sethical\sbusiness/) {$match = 1;$rms_pasta = $monetize_pasta}
-        if (/mp3\s+player/i && ! /In\sthe\slate\s1990s/) {$match = 1;$rms_pasta = $mp3_pasta}
-        if (/open\s+source/i && ! /Free\ssoftware\sis\sa\spolitical\smovement/) {$match = 1;$rms_pasta = $open_pasta}
-        if (/\s+pc(\s|\.)/i && ! /been\ssuggested\sfor\sa\scomputer\srunning\sWindows/) {$match = 1;$rms_pasta = $pc_pasta}
-        if (/photoshopped|shooped|shopped/i && ! /one\sparticular\simage\sediting\sprogram,/) {$match = 1;$rms_pasta = $ps_pasta}
-        if (/\spiracy|pirate/i && ! /sharing\sinformation\swith\syour\sneighbor/) {$match = 1;$rms_pasta = $piracy_pasta}
-        if (/powerpoint|power\spoint/i && ! /Impress/) {$match = 1;$rms_pasta = $powerpoint_pasta}
-        if (/(drm|copyright)\sprotection/i && ! /If\syou\swant\sto\scriticize\scopyright/) {$match = 1;$rms_pasta = $protection_pasta}
-        if (/sell(ing)?\ssoftware/i && ! /imposing\sproprietary\srestrictions/) {$match = 1;$rms_pasta = $sellsoft_pasta}
-        if (/software industry/i && ! /automated\sproduction\sof\smaterial\sgoods/) {$match = 1;$rms_pasta = $softwareindustry_pasta}
-        if (/trusted computing/i && ! /scheme\sto\sredesign\scomputers/) {$match = 1;$rms_pasta = $trustedcomp_pasta}
-        if (/vendor/i && ! /recommend\sthe\sgeneral\sterm/) {$match = 1;$rms_pasta = $vendor_pasta}
-        if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /GNU\s*(\/|plus|with|and|\+)\s*(Linux|Lunix)/i) {$match = 1;$rms_pasta = $gnulinux_pasta}
+        if (/software market/i && ! /is a social movement/i) {$match = 1;$rms_pasta = $market_pasta}
+        if (/monetize/i && ! /a productive and ethical business/) {$match = 1;$rms_pasta = $monetize_pasta}
+        if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$rms_pasta = $mp3_pasta}
+        if (/open source/i && ! /Free software is a political movement/) {$match = 1;$rms_pasta = $open_pasta}
+        if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$rms_pasta = $pc_pasta}
+        if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$rms_pasta = $ps_pasta}
+        if (/\spiracy|pirate/i && ! /sharing information with your neighbor/) {$match = 1;$rms_pasta = $piracy_pasta}
+        if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$rms_pasta = $powerpoint_pasta}
+        if (/(drm|copyright) protection/i && ! /If you want to criticize copyright/) {$match = 1;$rms_pasta = $protection_pasta}
+        if (/sell(ing)? software/i && ! /imposing proprietary restrictions/) {$match = 1;$rms_pasta = $sellsoft_pasta}
+        if (/software industry/i && ! /automated production of material goods/) {$match = 1;$rms_pasta = $softwareindustry_pasta}
+        if (/trusted computing/i && ! /scheme to redesign computers/) {$match = 1;$rms_pasta = $trustedcomp_pasta}
+        if (/vendor/i && ! /recommend the general term/) {$match = 1;$rms_pasta = $vendor_pasta}
+        if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /(GNU|Gah?n(oo|ew))\s*(.|plus|with|and|slash)\s*(L(oo|i|u)n(oo|i|u)(x|cks))/i) {$match = 1;$rms_pasta = $gnulinux_pasta}
 
             if ( $match ){
             next if grep {$_ == $no} @interjected;
@@ -378,8 +378,8 @@ sub interject {
 	
 	my ($challenge) = $output =~ m/challenge : '([A-z0-9-]+)',/;
 	my $outfile = random_string() . ".jpg";
-	return if (invoke_curl("http://www.google.com/recaptcha/api/image?c=$challenge -o $outfile"));
-
+	if ( $os eq "Linux") {return if (invoke_curl("http://www.google.com/recaptcha/api/image?c=$challenge -o /tmp/$outfile"));}
+    else { return if (invoke_curl("http://www.google.com/recaptcha/api/image?c=$challenge -o $outfile"));}
 	my $vericode;
 
 		if ($os) {
@@ -387,7 +387,7 @@ sub interject {
 			if ($os eq "Darwin") {
 				system "qlmanage -p $outfile &> /dev/null &"; # Haven't tested this myself.
 			} elsif ($os eq "Linux") {
-				system "display $outfile &> /dev/null &";
+				system "display /tmp/$outfile &> /dev/null &";
 			}
 		} else {
 			print "Open $outfile to see the CAPTCHA, then enter it here:\n";

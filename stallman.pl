@@ -33,7 +33,7 @@ my @ns_headers = (
 
 our $logging_enabled = 1;
 our $distro_warn = 0;                               # Warn users about non-freedom respecting distros
-our $pic_path = "/home/anon/rms/";                  # Directory holding delcious Stallman pictures
+our $pic_path = "$ENV{HOME}/rms/";                  # Directory holding delcious Stallman pictures
 our $scan_interval = 10;                            # Interval between each sweep of all boards
 our $min_post_interval = 30;                        # Minimum delay after each individual interjection
 our $post_interval_variation = 5;                   # Upper threshold of random additional delay after interjecting

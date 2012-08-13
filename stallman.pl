@@ -398,7 +398,7 @@ sub scan_posts {
         s/<.*?>.*?<\/.*?>//g;
         s/<.*?>//g;
 #       Make it pretty
-        s/&quot/"/g;
+        s/&quot;/"/g;
         s/&gt;/>/g;
         s/&lt;/</g;
         s/&amp;/"/g;

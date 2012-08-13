@@ -384,6 +384,13 @@ sub scan_posts {
 #       Strip any remaining tags in post body.
         s/<.*?>.*?<\/.*?>//g;
         s/<.*?>//g;
+#       Make it pretty
+        s/&quot/"/g;
+        s/&gt;/>/g;
+        s/&lt;/</g;
+        s/&amp;/"/g;
+        s/&#44;/,/g;
+
 
 #Distro warnings take least priority        
         if ( $distro_warn ){
@@ -436,6 +443,7 @@ sub scan_posts {
             &log_msg("URL: $thread_url post: $no");
             &log_msg("POST: $_");
 
+            print "Post Number: $no\nPost: $_";
             &interject($thread_url, $no, $page);
             push @interjected, $no;
             $total_posts++;
@@ -496,6 +504,11 @@ sub interject {
                             upfile => $pic,
                             pwd => $password},
                             );
+
+    if ( $mechanize->status == "403"){print "Banned by Freedom-hating mods ;_;\n"; exit}
+    if ( grep /successful/i, $mechanize->content()){print "Freedom Delivered!\n\n"} 
+    if ( grep /mistyped/i, $mechanize->content()){print "Mistyped Captcha\n"; &interject($url, $post_no, $page); return} 
+    if ( grep /flood/i, $mechanize->content()){print "Flood Detected\n"} 
 
     sleep($min_post_interval + rand($post_interval_variation)); 
 }

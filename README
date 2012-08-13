@@ -24,3 +24,4 @@ mechanize
 imagemagick
 
 Todo:
+Circumvent filters(unicode?)

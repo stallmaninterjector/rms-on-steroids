@@ -402,7 +402,7 @@ sub scan_posts {
         if (/bsd.style/i && ! /advertising clause/) {$match = 1;$rms_pasta = $bsdstyle_pasta}
         if (/cloud computing|the cloud/i && ! /marketing buzzword/) {$match = 1;$rms_pasta = $cloudcomp_pasta}
         if (/closed source/i && ! /lump us in with them/) {$match = 1;$rms_pasta = $closed_pasta}
-        if (/commercial/i && ! /nonprofit organizations/) {$match = 1;$rms_pasta = $commercial_pasta}
+        if (/commercial/i && ! /nonprofit organizations|Canonical expressly promotes/) {$match = 1;$rms_pasta = $commercial_pasta}
         if (/consumer/i && ! /Digital Television Promotion/) {$match = 1;$rms_pasta = $consumer_pasta}
         if (/content/i && ! /(am|are) content|web site revision system|economic theory/) {$match = 1;$rms_pasta = $content_pasta}
         if (/digital goods/i && ! /erroneously identifies/) {$match = 1;$rms_pasta = $digital_goods_pasta}

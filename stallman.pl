@@ -45,7 +45,7 @@ my @ns_headers = (
 );
 
 our $logging_enabled = 1;
-our $distro_warn = 0;                               # Warn users about non-freedom respecting distros
+our $distro_warn = 1;                               # Warn users about non-freedom respecting distros
 our $pic_path = "$ENV{HOME}/rms/";                  # Directory holding delcious Stallman pictures
 our $scan_interval = 10;                            # Interval between each sweep of all boards
 our $min_post_interval = 30;                        # Minimum delay after each individual interjection
@@ -522,6 +522,7 @@ sub interject {
     if ( grep /successful/i, $mechanize->content()){print "Freedom Delivered!\n\n"} 
     if ( grep /mistyped/i, $mechanize->content()){print "Mistyped Captcha\n"; &interject($url, $post_no, $page); return} 
     if ( grep /flood/i, $mechanize->content()){print "Flood Detected\n"} 
+    if ( grep /duplicate/i, $mechanize->content()){print "Duplicate Image\n"} 
 
     sleep($min_post_interval + rand($post_interval_variation)); 
 }

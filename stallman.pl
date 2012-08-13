@@ -32,6 +32,7 @@ my @ns_headers = (
 );
 
 our $logging_enabled = 1;
+our $distro_warn = 0;                               # Warn users about non-freedom respecting distros
 our $pic_path = "/home/anon/rms/";                  # Directory holding delcious Stallman pictures
 our $scan_interval = 10;                            # Interval between each sweep of all boards
 our $min_post_interval = 30;                        # Minimum delay after each individual interjection
@@ -253,6 +254,67 @@ Please don't use the term "vendor" to refer generally to anyone that develops or
 FIN
 
 
+#distro pasta list
+
+
+our $arch_pasta=<<FIN;
+Arch has the two usual problems: there's no clear policy about what software can be included, and nonfree blobs are shipped with their kernel, Linux. Arch also has no policy about not distributing nonfree software through their normal channels.
+FIN
+
+our $centos_pasta=<<FIN;
+We're not aware of problems in CentOS aside from the two usual ones: there's no clear policy about what software can be included, and nonfree blobs are shipped with Linux, the kernel. Of course, with no firm policy in place, there might be other nonfree software included that we missed.
+FIN
+
+our $debian_pasta=<<FIN;
+Debian's Social Contract states the goal of making Debian entirely free software, and Debian conscientiously keeps nonfree software out of the official Debian system. However, Debian also provides a repository of nonfree software. According to the project, this software is "not part of the Debian system," but the repository is hosted on many of the project's main servers, and people can readily learn about these nonfree packages by browsing Debian's online package database.
+
+There is also a "contrib" repository; its packages are free, but some of them exist to load separately distributed proprietary programs. This too is not thoroughly separated from the main Debian distribution.
+
+Previous releases of Debian included nonfree blobs with Linux, the kernel. With the release of Debian 6.0 ("squeeze") in February 2011, these blobs have been moved out of the main distribution to separate packages in the nonfree repository. However, the problem partly remains: the installer in some cases recommends these nonfree firmware files for the peripherals on the machine.
+FIN
+
+our $fedora_pasta=<<FIN;
+Fedora does have a clear policy about what can be included in the distribution, and it seems to be followed carefully. The policy requires that most software and all fonts be available under a free license, but makes an exception for certain kinds of nonfree firmware. Unfortunately, the decision to allow that firmware in the policy keeps Fedora from meeting the free system distribution guidelines.
+FIN
+
+
+#gentoo is an exception
+
+
+our $mandriva_pasta=<<FIN;
+Mandriva does have a stated policy about what can be included in the main system. It's based on Fedora's, which means that it also allows certain kinds of nonfree firmware to be included. On top of that, it permits software released under the original Artistic License to be included, even though that's a nonfree license.
+
+Mandriva also provides nonfree software through dedicated repositories.
+FIN
+
+our $opensuse_pasta=<<FIN;
+OpenSUSE offers its users access to a repository of nonfree software. This is an instance of how "open" is weaker than "free".
+FIN
+
+our $redhat_pasta=<<FIN;
+Red Hat's enterprise distribution primarily follows the same licensing policies as Fedora, with one exception. Thus, we don't endorse it for the same reasons. In addition to those, Red Hat has no policy against making nonfree software available for the system through supplementary distribution channels.
+FIN
+
+our $slackware_pasta=<<FIN;
+Slackware has the two usual problems: there's no clear policy about what software can be included, and nonfree blobs are included in Linux, the kernel. It also ships with the nonfree image-viewing program xv. Of course, with no firm policy in place, there might be other nonfree software included that we missed.
+FIN
+
+our $ubuntu_pasta=<<FIN;
+Ubuntu provides specific repositories of nonfree software, and Canonical expressly promotes and recommends nonfree software under the Ubuntu name in some of their distribution channels. Ubuntu offers the option to install only free packages, which means it also offers the option to install nonfree packages too. In addition, the version of Linux, the kernel, included in Ubuntu contains firmware blobs.
+
+Ubuntu's trademark policy prohibits commercial redistribution of exact copies of Ubuntu, denying an important freedom. 
+FIN
+
+our $bsd_pasta=<<FIN;
+FreeBSD, NetBSD, and OpenBSD all include instructions for obtaining nonfree programs in their ports system. In addition, their kernels include nonfree firmware blobs.
+
+Nonfree firmware programs used with Linux, the kernel, are called "blobs", and that's how we use the term. In BSD parlance, the term "blob" means something else: a nonfree driver. OpenBSD and perhaps other BSD distributions (called "projects" by BSD developers) have the policy of not including those. That is the right policy, as regards drivers; but when the developers say these distributions "contain no blobs", it causes a misunderstanding. They are not talking about firmware blobs.
+
+No BSD distribution has policies against proprietary binary-only firmware that might be loaded even by free drivers.
+FIN
+
+
+
 
 
 open LOGGING, ">", $log_file or die $!;   # Log file location
@@ -322,7 +384,19 @@ sub scan_posts {
         s/<.*?>.*?<\/.*?>//g;
         s/<.*?>//g;
 
-
+#Distro warnings take least priority        
+        if ( $distro_warn ){
+        if (/arch/i && ! /two usual problems/) {$match = 1;$rms_pasta = $arch_pasta}
+        if (/centos/i && ! /two usual ones/) {$match = 1;$rms_pasta = $centos_pasta}
+        if (/debian/i && ! /separately distributed proprietary programs/) {$match = 1;$rms_pasta = $debian_pasta}
+        if (/fedora/i && ! /allow that firmware in the/) {$match = 1;$rms_pasta = $fedora_pasta}
+        if (/mandriva/i && ! /it permits software released/) {$match = 1;$rms_pasta = $mandriva_pasta}
+        if (/opensuse/i && ! /offers its users access to a repository/) {$match = 1;$rms_pasta = $opensuse_pasta}
+        if (/red hat|rhel/i && ! /enterprise distribution primarily/) {$match = 1;$rms_pasta = $redhat_pasta}
+        if (/slackware/i && ! /two usual problems/) {$match = 1;$rms_pasta = $slackware_pasta}
+        if (/ubuntu/i && ! /provides specific repositories of nonfree/) {$match = 1;$rms_pasta = $ubuntu_pasta}
+        if (/(free|open|net).?bsd/i && ! /all include instructions for obtaining nonfree/) {$match = 1;$rms_pasta = $bsd_pasta}
+        }
 #GNU/Linux pasta goes last, takes priority over other pastas
 
         if (/bsd.style/i && ! /advertising clause/) {$match = 1;$rms_pasta = $bsdstyle_pasta}

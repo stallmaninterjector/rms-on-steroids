@@ -300,7 +300,7 @@ Slackware has the two usual problems: there's no clear policy about what softwar
 FIN
 
 our $ubuntu_pasta=<<FIN;
-Ubuntu provides specific repositories of nonfree software, and Canonical expressly promotes and recommends nonfree software under the Ubuntu name in some of their distribution channels. Ubuntu offers the option to install only free packages, which means it also offers the option to install nonfree packages too. In addition, the version of the kernel, included in Ubuntu contains firmware blobs.
+Ubuntu provides specific repositories of nonfree software, and Canonical expressly promotes and recommends nonfree software under the Ubuntu name in some of their distribution channels. Ubuntu offers the option to install only free packages, which means it also offers the option to inestall nonfree packages too. In addition, the version of the kernel, included in Ubuntu contains firmware blobs.
 
 Ubuntu's trademark policy prohibits commercial redistribution of exact copies of Ubuntu, denying an important freedom. 
 FIN
@@ -402,7 +402,7 @@ sub scan_posts {
         if (/bsd.style/i && ! /advertising clause/) {$match = 1;$rms_pasta = $bsdstyle_pasta}
         if (/cloud computing|the cloud/i && ! /marketing buzzword/) {$match = 1;$rms_pasta = $cloudcomp_pasta}
         if (/closed source/i && ! /lump us in with them/) {$match = 1;$rms_pasta = $closed_pasta}
-        if (/commercial/i && ! /nonprofit organizations|Canonical expressly promotes/) {$match = 1;$rms_pasta = $commercial_pasta}
+        if (/commercial/i && ! /nonprofit organizations|Canonical expressly promotes|encourages people to imagine/) {$match = 1;$rms_pasta = $commercial_pasta}
         if (/consumer/i && ! /Digital Television Promotion/) {$match = 1;$rms_pasta = $consumer_pasta}
         if (/content/i && ! /(am|are) content|web site revision system|economic theory/) {$match = 1;$rms_pasta = $content_pasta}
         if (/digital goods/i && ! /erroneously identifies/) {$match = 1;$rms_pasta = $digital_goods_pasta}
@@ -417,7 +417,7 @@ sub scan_posts {
         if (/software market/i && ! /is a social movement/i) {$match = 1;$rms_pasta = $market_pasta}
         if (/monetize/i && ! /a productive and ethical business/) {$match = 1;$rms_pasta = $monetize_pasta}
         if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$rms_pasta = $mp3_pasta}
-        if (/open source/i && ! /Free software is a political movement/) {$match = 1;$rms_pasta = $open_pasta}
+        if (/open source/i && ! /Free software is a political movement|lump us in with them/) {$match = 1;$rms_pasta = $open_pasta}
         if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$rms_pasta = $pc_pasta}
         if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$rms_pasta = $ps_pasta}
         if (/\spiracy|pirate/i && ! /sharing information with your neighbor/) {$match = 1;$rms_pasta = $piracy_pasta}

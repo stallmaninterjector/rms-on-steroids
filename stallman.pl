@@ -436,7 +436,7 @@ sub scan_posts {
         if (/give away software/i && ! /This locution has/) {$match = 1;$rms_pasta = $give_pasta}
         if (/hacker/i && ! /playful cleverness--not/) {$match = 1;$rms_pasta = $hacker_pasta}
         if (/intellectual property/i && ! /hidden assumption--that|web site revision system/) {$match = 1;$rms_pasta = $ip_pasta}
-        if (/lamp/i && ! /glamp/i) {$match = 1;$rms_pasta = $lamp_pasta}
+        if (/\slamp/i && ! /glamp/i) {$match = 1;$rms_pasta = $lamp_pasta}
         if (/software market/i && ! /is a social movement/i) {$match = 1;$rms_pasta = $market_pasta}
         if (/monetize/i && ! /a productive and ethical business/) {$match = 1;$rms_pasta = $monetize_pasta}
         if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$rms_pasta = $mp3_pasta}

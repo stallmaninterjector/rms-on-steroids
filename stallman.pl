@@ -524,7 +524,7 @@ sub interject {
     if ( $mechanize->status == "403"){print "Banned by Freedom-hating mods ;_;\n"; exit}
     if ( grep /successful/i, $mechanize->content()){print "Freedom Delivered!\n\n"} 
     if ( grep /mistyped/i, $mechanize->content()){print "Mistyped Captcha\n"; &interject($url, $post_no, $page); return} 
-    if ( grep /flood/i, $mechanize->content()){print "Flood Detected\n"; print "\n"; return} 
+    if ( grep /flood/i, $mechanize->content()){print "Flood Detected\n\n"; return} 
     if ( grep /duplicate/i, $mechanize->content()){print "Duplicate Image\n"} 
 
     sleep($min_post_interval + rand($post_interval_variation)); 

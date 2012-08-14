@@ -51,6 +51,8 @@ our $scan_interval = 10;                            # Interval between each swee
 our $min_post_interval = 30;                        # Minimum delay after each individual interjection
 our $post_interval_variation = 5;                   # Upper threshold of random additional delay after interjecting
 our $password = int(rand(99999999));                # Generate random password for stallman
+our $rainbow_rms = 0;                               # Give images random hue
+
 our $total_posts = 0;
 our @handsome_rms_pics = <$pic_path*>;
 our @interjected;                                   # Track posts already responded to.
@@ -539,7 +541,8 @@ sub select_pic {
 #   Select a file from the array, resize it, and give it a random unix timestamp.
     log "No RMS pictures in folder... ;_;\n" && exit if ! @handsome_rms_pics;
     my $filename = "/tmp/" . int(time() - rand(9999999)) . int(rand(888) + 100) . ".jpg";
-    system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% ' . $filename;
+    if ( $rainbow_rms ){system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% -modulate ' . int(rand(199)) . "," . int(rand(199)) . "," . int(rand(199)) . " "  . $filename;}
+    else {system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% ' . $filename;}
     return $filename;
 }
 

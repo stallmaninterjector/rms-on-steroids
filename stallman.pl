@@ -520,6 +520,7 @@ sub interject {
 	if ( $os eq "Linux") {unlink "/tmp/$outfile";}
     else {unlink $outfile;}
 
+    if ($vericode =~ /^\s*$/){print "Skipping Post\n\n";return} #skip post if blank input
     my ($url, $post_no, $page, ) = @_;
     my ($form, $interjection, $submit_button, $pic);
     $interjection = ">>$post_no\n" . $rms_pasta;

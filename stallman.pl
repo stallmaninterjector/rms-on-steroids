@@ -44,21 +44,22 @@ my @ns_headers = (
 );
 
 our $distro_warn = 1;                               # Warn users about non-freedom respecting distros
-our $pic_path = "$ENV{HOME}/rms/";                  # Directory holding delcious Stallman pictures
+our $linus_mode = 0;								# Freedom hating linus mode
+our $pic_path = "$ENV{HOME}/rms/";				# Directory holding delcious Stallman pictures
+
 our $scan_interval = 10;                            # Interval between each sweep of all boards
 our $min_post_interval = 30;                        # Minimum delay after each individual interjection
 our $post_interval_variation = 5;                   # Upper threshold of random additional delay after interjecting
 our $password = int(rand(99999999));                # Generate random password for stallman
 our $rainbow_rms = 0;                               # Give images random hue
+our @handsome_pics = <$pic_path*>;
 
 our $total_posts = 0;
-our @handsome_rms_pics = <$pic_path*>;
 our @interjected;                                   # Track posts already responded to.
 our $browser = LWP::UserAgent->new;
 
-
 #pasta list
-our $rms_pasta =<<FIN;
+our $pasta =<<FIN;
 I'd just like to interject for one moment. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the GNU system every day, without realizing it. Through a peculiar turn of events, the version of GNU which is widely used today is often called "Linux", and many of its users are not aware that it is basically the GNU system, developed by the GNU Project.
@@ -343,6 +344,15 @@ Nonfree firmware programs used with the kernel, are called "blobs", and that's h
 No BSD distribution has policies against proprietary binary-only firmware that might be loaded even by free drivers.
 FIN
 
+our $torvalds_pasta =<<FIN;
+No, Richard, it's 'Linux', not 'GNU/Linux'. The most important contributions that the FSF made to Linux were the cration of the GPL and the GCC compiler. Those were fine and inspired products. GCC is a monumental achievement and has earned you, RMS, and the Free Software Foundation countless kudos and much appreciation.
+
+Following are some reasons for you to mull over including some already answered in your FAQ.
+One guy, Linus Torvalds (me), used GCC to make his operating system (yes, Linux is an OS -- more on this later). I named it 'Linux' with a little help from my friends. Why don't I call it GNU/Linux? Because I wrote it, with more help from my friends, not you. You named your stuff, I named my stuff. The proper name is Linux because I says so. I have spoken. Accept my authority. To do otherwise is to become a nag, do you?
+
+(An operating system) != (a distribution). Linux is an operating system. By my definition, an operating system is that software which provides and limits access to hardware resources on a computer. That definition applies to whereever you see Linux in use. However, Linux is usually distributed with a collection of utilities and application to make it easily configurable as a desktop system, a server, a development box, or a graphics workstation, or whatever the user needs. In such a configuration, we have a Linux (based) distribution. Therein lies you strongest argument for the unwieldy title 'GNU/Linux' (when said bundled software is largely from the FSF). Go bug the distribution makers on that one. Take your beef to Red Har, Mandrake, and Slackware. At least there you have an argument. Linux alone is an operating system that can be used in various applications without any GNU software whatsoever. Embedded applications come to mind as an obvious example.
+FIN
+
 while (1) {
     for (sort keys %boards) {
 #       Aggregate listing of threads on front page of board,
@@ -399,53 +409,56 @@ sub scan_posts {
         s/&amp;/"/g;
         s/&#44;/,/g;
 
-
+        if ( !$linus_mode) {
 #Distro warnings take least priority        
         if ( $distro_warn ){
-        if (/\sarch\s/i && ! /two usual problems/) {$match = 1;$rms_pasta = $arch_pasta}
-        if (/centos/i && ! /two usual ones/) {$match = 1;$rms_pasta = $centos_pasta}
-        if (/debian/i && ! /separately distributed proprietary programs/) {$match = 1;$rms_pasta = $debian_pasta}
-        if (/fedora/i && ! /allow that firmware in the/) {$match = 1;$rms_pasta = $fedora_pasta}
-        if (/mandriva/i && ! /it permits software released/) {$match = 1;$rms_pasta = $mandriva_pasta}
-        if (/opensuse/i && ! /offers its users access to a repository/) {$match = 1;$rms_pasta = $opensuse_pasta}
-        if (/red hat|rhel/i && ! /enterprise distribution primarily/) {$match = 1;$rms_pasta = $redhat_pasta}
-        if (/slackware/i && ! /two usual problems/) {$match = 1;$rms_pasta = $slackware_pasta}
-        if (/ubuntu/i && ! /provides specific repositories of nonfree/) {$match = 1;$rms_pasta = $ubuntu_pasta}
-        if (/(free|open|net).?bsd/i && ! /all include instructions for obtaining nonfree/) {$match = 1;$rms_pasta = $bsd_pasta}
+        if (/\sarch\s/i && ! /two usual problems/) {$match = 1;$pasta = $arch_pasta}
+        if (/centos/i && ! /two usual ones/) {$match = 1;$pasta = $centos_pasta}
+        if (/debian/i && ! /separately distributed proprietary programs/) {$match = 1;$pasta = $debian_pasta}
+        if (/fedora/i && ! /allow that firmware in the/) {$match = 1;$pasta = $fedora_pasta}
+        if (/mandriva/i && ! /it permits software released/) {$match = 1;$pasta = $mandriva_pasta}
+        if (/opensuse/i && ! /offers its users access to a repository/) {$match = 1;$pasta = $opensuse_pasta}
+        if (/red hat|rhel/i && ! /enterprise distribution primarily/) {$match = 1;$pasta = $redhat_pasta}
+        if (/slackware/i && ! /two usual problems/) {$match = 1;$pasta = $slackware_pasta}
+        if (/ubuntu/i && ! /provides specific repositories of nonfree/) {$match = 1;$pasta = $ubuntu_pasta}
+        if (/(free|open|net).?bsd/i && ! /all include instructions for obtaining nonfree/) {$match = 1;$pasta = $bsd_pasta}
         }
 #GNU/Linux pasta goes last, takes priority over other pastas
 
-        if (/bsd.style/i && ! /advertising clause/) {$match = 1;$rms_pasta = $bsdstyle_pasta}
-        if (/cloud computing|the cloud/i && ! /marketing buzzword/) {$match = 1;$rms_pasta = $cloudcomp_pasta}
-        if (/closed source/i && ! /lump us in with them/) {$match = 1;$rms_pasta = $closed_pasta}
-        if (/commercial/i && ! /nonprofit organizations|Canonical expressly promotes|encourages people to imagine/) {$match = 1;$rms_pasta = $commercial_pasta}
-        if (/consumer/i && ! /Digital Television Promotion/) {$match = 1;$rms_pasta = $consumer_pasta}
-        if (/content/i && ! /(am|are) content|web site revision system|economic theory/) {$match = 1;$rms_pasta = $content_pasta}
-        if (/digital goods/i && ! /erroneously identifies/) {$match = 1;$rms_pasta = $digital_goods_pasta}
-        if (/digital locks?/i && ! /digital handcuffs/) {$match = 1;$rms_pasta = $digital_locks_pasta}
-        if (/drm|digital rights management/i && ! /lead you unawares|If you want to criticize copyright/) {$match = 1;$rms_pasta = $drm_pasta}
-        if (/ecosystem/i && ! /implicitly suggests an attitude/) {$match = 1;$rms_pasta = $eco_pasta}
-        if (/freeware|free.ware/i && ! /often in the 1980s/) {$match = 1;$rms_pasta = $freeware_pasta}
-        if (/give away software/i && ! /This locution has/) {$match = 1;$rms_pasta = $give_pasta}
-        if (/hacker/i && ! /playful cleverness--not/) {$match = 1;$rms_pasta = $hacker_pasta}
-        if (/intellectual property/i && ! /hidden assumption--that|web site revision system/) {$match = 1;$rms_pasta = $ip_pasta}
-        if (/\slamp/i && ! /glamp/i) {$match = 1;$rms_pasta = $lamp_pasta}
-        if (/software market/i && ! /is a social movement/i) {$match = 1;$rms_pasta = $market_pasta}
-        if (/monetize/i && ! /a productive and ethical business/) {$match = 1;$rms_pasta = $monetize_pasta}
-        if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$rms_pasta = $mp3_pasta}
-        if (/open source/i && ! /Free software is a political movement|lump us in with them/) {$match = 1;$rms_pasta = $open_pasta}
-        if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$rms_pasta = $pc_pasta}
-        if (/pa?edo(phile)?/i && ! /I am skeptical of the claim/) {$match = 1;$rms_pasta = $pedo_pasta}
-        if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$rms_pasta = $ps_pasta}
-        if (/\spiracy|pirate/i && ! /sharing information with your neighbor/) {$match = 1;$rms_pasta = $piracy_pasta}
-        if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$rms_pasta = $powerpoint_pasta}
-        if (/(drm|copyright) protection/i && ! /If you want to criticize copyright/) {$match = 1;$rms_pasta = $protection_pasta}
-        if (/sell(ing)? software/i && ! /imposing proprietary restrictions/) {$match = 1;$rms_pasta = $sellsoft_pasta}
-        if (/software industry/i && ! /automated production of material goods/) {$match = 1;$rms_pasta = $softwareindustry_pasta}
-        if (/trusted computing/i && ! /scheme to redesign computers/) {$match = 1;$rms_pasta = $trustedcomp_pasta}
-        if (/vendor/i && ! /recommend the general term/) {$match = 1;$rms_pasta = $vendor_pasta}
-        if (/The most important contributions that the FSF made/ ) {$match = 1;$rms_pasta = $linus_pasta}
-        if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /(GNU|Gah?n(oo|ew))\s*(.|plus|with|and|slash)\s*(L(oo|i|u)n(oo|i|u)(x|cks))/i) {$match = 1;$rms_pasta = $gnulinux_pasta}
+        if (/bsd.style/i && ! /advertising clause/) {$match = 1;$pasta = $bsdstyle_pasta}
+        if (/cloud computing|the cloud/i && ! /marketing buzzword/) {$match = 1;$pasta = $cloudcomp_pasta}
+        if (/closed source/i && ! /lump us in with them/) {$match = 1;$pasta = $closed_pasta}
+        if (/commercial/i && ! /nonprofit organizations|Canonical expressly promotes|encourages people to imagine/) {$match = 1;$pasta = $commercial_pasta}
+        if (/consumer/i && ! /Digital Television Promotion/) {$match = 1;$pasta = $consumer_pasta}
+        if (/content/i && ! /(am|are) content|web site revision system|economic theory/) {$match = 1;$pasta = $content_pasta}
+        if (/digital goods/i && ! /erroneously identifies/) {$match = 1;$pasta = $digital_goods_pasta}
+        if (/digital locks?/i && ! /digital handcuffs/) {$match = 1;$pasta = $digital_locks_pasta}
+        if (/drm|digital rights management/i && ! /lead you unawares|If you want to criticize copyright/) {$match = 1;$pasta = $drm_pasta}
+        if (/ecosystem/i && ! /implicitly suggests an attitude/) {$match = 1;$pasta = $eco_pasta}
+        if (/freeware|free.ware/i && ! /often in the 1980s/) {$match = 1;$pasta = $freeware_pasta}
+        if (/give away software/i && ! /This locution has/) {$match = 1;$pasta = $give_pasta}
+        if (/hacker/i && ! /playful cleverness--not/) {$match = 1;$pasta = $hacker_pasta}
+        if (/intellectual property/i && ! /hidden assumption--that|web site revision system/) {$match = 1;$pasta = $ip_pasta}
+        if (/\slamp/i && ! /glamp/i) {$match = 1;$pasta = $lamp_pasta}
+        if (/software market/i && ! /is a social movement/i) {$match = 1;$pasta = $market_pasta}
+        if (/monetize/i && ! /a productive and ethical business/) {$match = 1;$pasta = $monetize_pasta}
+        if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$pasta = $mp3_pasta}
+        if (/open source/i && ! /Free software is a political movement|lump us in with them/) {$match = 1;$pasta = $open_pasta}
+        if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$pasta = $pc_pasta}
+        if (/pa?edo(phile)?/i && ! /I am skeptical of the claim/) {$match = 1;$pasta = $pedo_pasta}
+        if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$pasta = $ps_pasta}
+        if (/\spiracy|pirate/i && ! /sharing information with your neighbor/) {$match = 1;$pasta = $piracy_pasta}
+        if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$pasta = $powerpoint_pasta}
+        if (/(drm|copyright) protection/i && ! /If you want to criticize copyright/) {$match = 1;$pasta = $protection_pasta}
+        if (/sell(ing)? software/i && ! /imposing proprietary restrictions/) {$match = 1;$pasta = $sellsoft_pasta}
+        if (/software industry/i && ! /automated production of material goods/) {$match = 1;$pasta = $softwareindustry_pasta}
+        if (/trusted computing/i && ! /scheme to redesign computers/) {$match = 1;$pasta = $trustedcomp_pasta}
+        if (/vendor/i && ! /recommend the general term/) {$match = 1;$pasta = $vendor_pasta}
+        if (/The most important contributions that the FSF made/ ) {$match = 1;$pasta = $linus_pasta}
+        if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /(GNU|Gah?n(oo|ew))\s*(.|plus|with|and|slash)\s*(L(oo|i|u)n(oo|i|u)(x|cks))/i) {$match = 1;$pasta = $gnulinux_pasta}
+    	} else {
+    	if (/What you're referring to as Linux, is in fact, GNU\/Linux/i) {$match = 1;$pasta = $gnulinux_pasta}
+    	}
 
             if ( $match ){
             next if grep {$_ == $no} @interjected;
@@ -495,7 +508,7 @@ sub interject {
     if ($vericode =~ /^\s*$/){print "Skipping Post\n\n";return} #skip post if blank input
     my ($url, $post_no, $page, ) = @_;
     my ($form, $interjection, $submit_button, $pic);
-    $interjection = ">>$post_no\n" . $rms_pasta;
+    $interjection = ">>$post_no\n" . $pasta;
     $pic = &select_pic;
 
     my $mechanize = WWW::Mechanize->new();
@@ -522,9 +535,9 @@ sub interject {
 
 sub select_pic {
 #   Select a file from the array, resize it, and give it a random unix timestamp.
-    exit if ! @handsome_rms_pics;
+    exit if ! @handsome_pics;
     my $filename = "/tmp/" . int(time() - rand(9999999)) . int(rand(888) + 100) . ".jpg";
-    if ( $rainbow_rms ){system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% -modulate 100,100,' . int(rand(999)) . ' '  . $filename;}
-    else {system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% ' . $filename;}
+    if ( $rainbow_rms ){system 'convert "' . @handsome_pics[int(rand(@handsome_pics))] . '" -resize ' . int(rand(20)+ 80) . '% -modulate 100,100,' . int(rand(999)) . ' '  . $filename;}
+    else {system 'convert "' . @handsome_pics[int(rand(@handsome_pics))] . '" -resize ' . int(rand(20)+ 80) . '% ' . $filename;}
     return $filename;
 }

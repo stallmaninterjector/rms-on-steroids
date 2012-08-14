@@ -36,7 +36,6 @@ my @threads;
 my $output;
 my $iteration = 0;
 my %boards = ( g => 'boards' );                     # Hash containing boards to sweep.
-my $log_file = "$ENV{HOME}/log_interjection";
 my @ns_headers = (
     'User-Agent' => 'Mozilla/5.0 (X11; Gentoo; Linux i686; rv:14.0) Gecko/20100101 Firefox/14.0.1',
     'Accept-Charset' => 'iso-8859-1,*,utf-8',
@@ -44,7 +43,6 @@ my @ns_headers = (
     'Referer' => 'https://boards.4chan.org/g/',
 );
 
-our $logging_enabled = 1;
 our $distro_warn = 1;                               # Warn users about non-freedom respecting distros
 our $pic_path = "$ENV{HOME}/rms/";                  # Directory holding delcious Stallman pictures
 our $scan_interval = 10;                            # Interval between each sweep of all boards
@@ -345,28 +343,7 @@ Nonfree firmware programs used with the kernel, are called "blobs", and that's h
 No BSD distribution has policies against proprietary binary-only firmware that might be loaded even by free drivers.
 FIN
 
-
-
-
-
-open LOGGING, ">", $log_file or die $!;   # Log file location
-print LOGGING "...logging to $log_file\n";
-
-
-
-&log_msg("### ------------ interjection.pl ------------ ###");
-&log_msg("###");
-&log_msg("### \$pic_path:\t\t\t$pic_path");
-&log_msg("### \$scan_interval:\t\t$scan_interval");
-&log_msg("### \$min_post_interval:\t\t$min_post_interval");
-&log_msg("### \$post_interval_variation:\t$post_interval_variation");
-&log_msg("### \$password:\t$password");
-&log_msg("###");
-&log_msg("### ----------------------------------------- ###");
-&log_msg("Entering main loop...");
-
 while (1) {
-    &log_msg("Iteration $iteration");
     for (sort keys %boards) {
 #       Aggregate listing of threads on front page of board,
 #       pass each thread to &scan_posts to read.
@@ -379,7 +356,6 @@ while (1) {
         &scan_posts("http://boards.4chan.org/$board/res/$_") for @threads;
     }
 
-    &log_msg("Ending iteration $iteration. Will resume in $scan_interval seconds.\n");
     sleep($scan_interval);  # long pause between sweeps.
     $iteration++;
 }
@@ -474,14 +450,10 @@ sub scan_posts {
             if ( $match ){
             next if grep {$_ == $no} @interjected;
 
-            &log_msg("URL: $thread_url post: $no");
-            &log_msg("POST: $_");
-
-            print "Post Number: $no\nPost: $_";
+            print "Post Number: $no\nPost: $_\nURL: $thread_url";
             &interject($thread_url, $no, $page);
             push @interjected, $no;
             $total_posts++;
-            &log_msg("Interjection to post $no successful. Freedom delivered! Total posts: $total_posts");
         }
     }
 }
@@ -525,8 +497,6 @@ sub interject {
     my ($form, $interjection, $submit_button, $pic);
     $interjection = ">>$post_no\n" . $rms_pasta;
     $pic = &select_pic;
-    &log_msg("attached pic: $pic");  
-
 
     my $mechanize = WWW::Mechanize->new();
     $mechanize->get($url);
@@ -550,20 +520,11 @@ sub interject {
     sleep($min_post_interval + rand($post_interval_variation)); 
 }
 
-sub log_msg {
-    my $msg = shift;
-    exit if ! $logging_enabled;
-    my $now = DateTime->now;
-    syswrite LOGGING, $now->ymd . " " . $now->hms . ": $msg\n" or die $!;
-}
-
 sub select_pic {
 #   Select a file from the array, resize it, and give it a random unix timestamp.
-    log "No RMS pictures in folder... ;_;\n" && exit if ! @handsome_rms_pics;
+    exit if ! @handsome_rms_pics;
     my $filename = "/tmp/" . int(time() - rand(9999999)) . int(rand(888) + 100) . ".jpg";
     if ( $rainbow_rms ){system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% -modulate 100,100,' . int(rand(999)) . ' '  . $filename;}
     else {system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% ' . $filename;}
     return $filename;
 }
-
-

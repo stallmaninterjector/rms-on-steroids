@@ -1,16 +1,3 @@
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-
-#   You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 #!/usr/bin/perl
 #
 #       stallman.pl
@@ -23,6 +10,19 @@
 #   3.  Interject with random Stallman picture and apt pasta, then sleep.
 #   4.  At the end of each sweep, sleep for a few minutes before repeating
 #       again, ad nauseum.
+
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+#   You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use warnings;
 use strict;
@@ -51,6 +51,8 @@ our $scan_interval = 10;                            # Interval between each swee
 our $min_post_interval = 30;                        # Minimum delay after each individual interjection
 our $post_interval_variation = 5;                   # Upper threshold of random additional delay after interjecting
 our $password = int(rand(99999999));                # Generate random password for stallman
+our $rainbow_rms = 0;                               # Give images random hue
+
 our $total_posts = 0;
 our @handsome_rms_pics = <$pic_path*>;
 our @interjected;                                   # Track posts already responded to.
@@ -59,7 +61,7 @@ our $browser = LWP::UserAgent->new;
 
 #pasta list
 our $rms_pasta =<<FIN;
-I'd just like to interject. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
+I'd just like to interject for one moment. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the GNU system every day, without realizing it. Through a peculiar turn of events, the version of GNU which is widely used today is often called "Linux", and many of its users are not aware that it is basically the GNU system, developed by the GNU Project.
 
@@ -67,7 +69,7 @@ There really is a Linux, and these people are using it, but it is just a part of
 FIN
 
 our $gnulinux_pasta =<<FIN;
-I'd just like to interject. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
+I'd just like to interject for one moment. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the GNU system every day, without realizing it. Through a peculiar turn of events, the version of GNU which is widely used today is often called "Linux", and many of its users are not aware that it is basically the GNU system, developed by the GNU Project.
 
@@ -398,7 +400,7 @@ sub scan_posts {
         s/<.*?>.*?<\/.*?>//g;
         s/<.*?>//g;
 #       Make it pretty
-        s/&quot/"/g;
+        s/&quot;/"/g;
         s/&gt;/>/g;
         s/&lt;/</g;
         s/&amp;/"/g;
@@ -517,6 +519,7 @@ sub interject {
                             upfile => $pic,
                             pwd => $password},
                             );
+    unlink $pic;
 
     if ( $mechanize->status == "403"){print "Banned by Freedom-hating mods ;_;\n"; exit}
     if ( grep /successful/i, $mechanize->content()){print "Freedom Delivered!\n\n"} 
@@ -535,10 +538,12 @@ sub log_msg {
 }
 
 sub select_pic {
-#   Select a file from the array and remove its entry.
-
-    log "No more sexy RMS pictures left... ;_;\n" && exit if ! @handsome_rms_pics;
-    return splice @handsome_rms_pics, int(rand(@handsome_rms_pics)), 1;
+#   Select a file from the array, resize it, and give it a random unix timestamp.
+    log "No RMS pictures in folder... ;_;\n" && exit if ! @handsome_rms_pics;
+    my $filename = "/tmp/" . int(time() - rand(9999999)) . int(rand(888) + 100) . ".jpg";
+    if ( $rainbow_rms ){system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% -modulate 100,100,' . int(rand(199)) . ' '  . $filename;}
+    else {system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% ' . $filename;}
+    return $filename;
 }
 
 

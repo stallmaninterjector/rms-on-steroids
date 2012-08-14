@@ -541,7 +541,7 @@ sub select_pic {
 #   Select a file from the array, resize it, and give it a random unix timestamp.
     log "No RMS pictures in folder... ;_;\n" && exit if ! @handsome_rms_pics;
     my $filename = "/tmp/" . int(time() - rand(9999999)) . int(rand(888) + 100) . ".jpg";
-    if ( $rainbow_rms ){system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% -modulate ' . int(rand(199)) . "," . int(rand(199)) . "," . int(rand(199)) . " "  . $filename;}
+    if ( $rainbow_rms ){system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% -modulate 100,100,' . int(rand(199)) . ' '  . $filename;}
     else {system 'convert "' . @handsome_rms_pics[int(rand(@handsome_rms_pics))] . '" -resize ' . int(rand(20)+ 80) . '% ' . $filename;}
     return $filename;
 }

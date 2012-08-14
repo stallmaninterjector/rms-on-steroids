@@ -76,6 +76,15 @@ Many computer users run a modified version of the GNU system every day, without 
 There really is a Linux, and these people are using it, but it is just a part of the system they use. Linux is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. Linux is normally used in combination with the GNU operating system: the whole system is basically GNU with Linux added, or GNU/Linux. All the so-called "Linux" distributions are really distributions of GNU/Linux.
 FIN
 
+our $linus_pasta =<<FIN;
+Actually, Linus, what you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
+
+Many computer users run a modified version of the GNU system every day, without realizing it. Through a peculiar turn of events, the version of GNU which is widely used today is often called "Linux", and many of its users are not aware that it is basically the GNU system, developed by the GNU Project.
+
+There really is a Linux, and these people are using it, but it is just a part of the system they use. Linux is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. Linux is normally used in combination with the GNU operating system: the whole system is basically GNU with Linux added, or GNU/Linux. All the so-called "Linux" distributions are really distributions of GNU/Linux.
+FIN
+
+
 our $bsdstyle_pasta=<<FIN;
 The expression "BSD-style license" leads to confusion because it lumps together licenses that have important differences. For instance, the original BSD license with the advertising clause is incompatible with the GNU General Public License, but the revised BSD license is compatible with the GPL.
 
@@ -224,6 +233,14 @@ our $pc_pasta=<<FIN;
 It's OK to use the abbreviation "PC" to refer to a certain kind of computer hardware, but please don't use it with the implication that the computer is running Microsoft Windows. If you install GNU/Linux on the same computer, it is still a PC.
 
 The term "WC" has been suggested for a computer running Windows.
+FIN
+
+our $pedo_pasta=<<FIN;
+Prostitution, adultery, necrophilia, bestiality, possession of child pornography, and even incest and pedophilia should be legal as long as no one is coerced. They are illegal only because of prejudice and narrowmindedness.
+
+Some rules might be called for when these acts directly affect other people's interests. For incest, contraception could be mandatory to avoid risk of inbreeding. For prostitution, a license should be required to ensure prostitutes get regular medical check-ups, and they should have training and support in insisting on use of condoms. This will be an advance in public health, compared with the situation today.
+
+I am skeptical of the claim that voluntarily pedophilia harms children. The arguments that it causes harm seem to be based on cases which aren't voluntary, which are then stretched by parents who are horrified by the idea that their little baby is maturing. This is illegal only because of prejudice and narrowmindedness.
 FIN
 
 our $ps_pasta=<<FIN;
@@ -430,7 +447,7 @@ sub scan_posts {
         if (/content/i && ! /(am|are) content|web site revision system|economic theory/) {$match = 1;$rms_pasta = $content_pasta}
         if (/digital goods/i && ! /erroneously identifies/) {$match = 1;$rms_pasta = $digital_goods_pasta}
         if (/digital locks?/i && ! /digital handcuffs/) {$match = 1;$rms_pasta = $digital_locks_pasta}
-        if (/drm|digital rights management/i && ! /lead you unawares/) {$match = 1;$rms_pasta = $drm_pasta}
+        if (/drm|digital rights management/i && ! /lead you unawares|If you want to criticize copyright/) {$match = 1;$rms_pasta = $drm_pasta}
         if (/ecosystem/i && ! /implicitly suggests an attitude/) {$match = 1;$rms_pasta = $eco_pasta}
         if (/freeware|free.ware/i && ! /often in the 1980s/) {$match = 1;$rms_pasta = $freeware_pasta}
         if (/give away software/i && ! /This locution has/) {$match = 1;$rms_pasta = $give_pasta}
@@ -442,6 +459,7 @@ sub scan_posts {
         if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$rms_pasta = $mp3_pasta}
         if (/open source/i && ! /Free software is a political movement|lump us in with them/) {$match = 1;$rms_pasta = $open_pasta}
         if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$rms_pasta = $pc_pasta}
+        if (/pa?edo(phile)?/i && ! /I am skeptical of the claim/) {$match = 1;$rms_pasta = $pedo_pasta}
         if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$rms_pasta = $ps_pasta}
         if (/\spiracy|pirate/i && ! /sharing information with your neighbor/) {$match = 1;$rms_pasta = $piracy_pasta}
         if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$rms_pasta = $powerpoint_pasta}
@@ -450,6 +468,7 @@ sub scan_posts {
         if (/software industry/i && ! /automated production of material goods/) {$match = 1;$rms_pasta = $softwareindustry_pasta}
         if (/trusted computing/i && ! /scheme to redesign computers/) {$match = 1;$rms_pasta = $trustedcomp_pasta}
         if (/vendor/i && ! /recommend the general term/) {$match = 1;$rms_pasta = $vendor_pasta}
+        if (/The most important contributions that the FSF made/ ) {$match = 1;$rms_pasta = $linus_pasta}
         if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /(GNU|Gah?n(oo|ew))\s*(.|plus|with|and|slash)\s*(L(oo|i|u)n(oo|i|u)(x|cks))/i) {$match = 1;$rms_pasta = $gnulinux_pasta}
 
             if ( $match ){

@@ -42,8 +42,8 @@ my @ns_headers = (
     'Accept-Language' => 'en-US',
     'Referer' => 'https://boards.4chan.org/g/',
 );
-#my $log_file = "$ENV{HOME}/log_interjection";
 
+our $logging_enabled = 1;
 our $linus_mode = 0;								# Freedom hating linus mode
 our $pic_path = "$ENV{HOME}/rms/";					# Image directory
 our $scan_interval = 10;                            # Interval between each sweep of all boards
@@ -52,6 +52,7 @@ our $post_interval_variation = 5;                   # Upper threshold of random 
 our $password = int(rand(99999999));                # Generate random password for stallman
 our $rainbow_rms = 0;                               # Give images random hue
 our @handsome_pics = <$pic_path*>;
+my $log_file = "$ENV{HOME}/log_interjection";
 
 our $total_posts = 0;
 our @interjected;                                   # Track posts already responded to.
@@ -369,12 +370,23 @@ Nonfree firmware programs used with the kernel, are called "blobs", and that's h
 No BSD distribution has policies against proprietary binary-only firmware that might be loaded even by free drivers.
 FIN
 
-#open LOGGING, ">", $log_file or die $!; # Log file location
-#print "...logging to $log_file\n";
+if ($logging_enabled) {
+	open LOGGING, ">", $log_file or die $!; # Log file location
+	&log_msg("...Logging to $log_file");
+}
+
+&log_msg("### ------------ interjection.pl ------------ ###");
+&log_msg("###");
+&log_msg("### \$pic_path:\t\t\t$pic_path");
+&log_msg("### \$scan_interval:\t\t$scan_interval");
+&log_msg("### \$min_post_interval:\t\t$min_post_interval");
+&log_msg("### \$post_interval_variation:\t$post_interval_variation");
+&log_msg("###");
+&log_msg("### ----------------------------------------- ###");
+&log_msg("Entering main loop...");
 
 while (1) {
-	print "Iteration $iteration.\n";
-	#&log_msg("Iteration $iteration");
+    &log_msg("Iteration: $iteration");
     for (sort keys %boards) {
 #       Aggregate listing of threads on front page of board,
 #       pass each thread to &scan_posts to read.
@@ -382,12 +394,11 @@ while (1) {
         my ($srvr, $board) = ($boards{$_}, $_);
         my $board_url = "http://boards.4chan.org/$board/0";
         my $page = ($browser->get($board_url, @ns_headers))->content;
-        $@ and print STDERR "$!\n";
+        $@ and print STDERR "$!";
         push @threads, $page =~ /<div class="thread" id="t(\d+)"/g;
         &scan_posts("http://boards.4chan.org/$board/res/$_") for @threads;
     }
-    print "Ending iteration $iteration. Will resume in $scan_interval.\n";
-    #&log_msg("Ending iteration $iteration. Will resume in $scan_interval.\n");
+    &log_msg("Ending iteration $iteration. Will resume in $scan_interval.");
     sleep($scan_interval);  # long pause between sweeps.
     $iteration++;
 }
@@ -407,7 +418,7 @@ sub invoke_curl($)
 
 	my $command = "curl $options --progress-bar -s -S -f ";
 	$output = `$command`;
-	print "\n";
+	print "";
 
 	return $?;
 }
@@ -415,16 +426,16 @@ sub scan_posts {
     my $thread_url = shift;
     my %posts;
     my $page = ($browser->get($thread_url, @ns_headers))->content;
-#   'name' attribute holds post number, post body is inside blockquote tags.
+	# 'name' attribute holds post number, post body is inside blockquote tags.
     %posts = $page =~
         /<blockquote class="postMessage" id="m(\d+)">(.*?)<\/blockquote>/gs;
     for my $no (sort keys %posts) {
         $_ = $posts{$no}; 
         my $match = 0;
-#       Strip any remaining tags in post body.
+		# Strip any remaining tags in post body.
         s/<.*?>.*?<\/.*?>//g;
         s/<.*?>//g;
-#       Make it pretty
+		# Make it pretty
         s/&quot;/"/g;
         s/&gt;/>/g;
         s/&lt;/</g;
@@ -474,7 +485,7 @@ sub scan_posts {
         if (/vendor/i && ! /recommend the general term/) {$match = 1;$pasta = $vendor_pasta}
         if (/The most important contributions that the FSF made/ ) {$match = 1;$pasta = $linus_pasta}
         if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /(GNU|Gah?n(oo|ew))\s*(.|plus|with|and|slash)\s*(L(oo|i|u)n(oo|i|u)(x|cks))/i) {$match = 1;$pasta = $gnulinux_pasta}
-        if (/fuck (linux|stallman|gnu|gpl)|stallman.bots?|stallbot|rmsbots?|stallman pls go|Shut your filthy hippy mouth, Richard/i) {$match = 1;$pasta = $seal_pasta;}
+        if (/fuck (linux|stallman|gnu|gpl)|stallman ?bots?|stall ?bots?|rmsbots?|stallman pls go|Shut your filthy hippy mouth, Richard/i) {$match = 1;$pasta = $seal_pasta;}
     	} else {
     	if (/What you're referring to as Linux, is in fact, GNU\/Linux/i) {$match = 1;$pasta = $torvalds_pasta}
     	}
@@ -482,9 +493,7 @@ sub scan_posts {
             if ($match){
             next if grep {$_ == $no} @interjected;
 
-            #&log_msg("URL: $thread_url post: $no POST: $_");
-
-            print "Post Number: $no\nPost: $_\nURL: $thread_url";
+            &log_msg("Post Number: $no\nPost: $_\nURL: $thread_url");
             &interject($thread_url, $no, $page);
             push @interjected, $no;
             $total_posts++;
@@ -493,9 +502,9 @@ sub scan_posts {
 }
 
 sub interject {
-#   Prepare pasta, fill form fields, find submit
-#   button and click it, then sleep for a semi-
-#   random amount of time.
+	# Prepare pasta, fill form fields, find submit
+	# button and click it, then sleep for a semi-
+	# random amount of time.
 	chomp(my $os = `uname -s`);
     return if (invoke_curl("http://www.google.com/recaptcha/api/challenge?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc"));
 
@@ -506,14 +515,14 @@ sub interject {
 	my $vericode;
 
 		if ($os) {
-			print "Enter the CAPTCHA here:\n";
+			print "Enter the CAPTCHA here:";
 			if ($os eq "Darwin") {
 				system "qlmanage -p $outfile &> /dev/null &"; # Haven't tested this myself.
 			} elsif ($os eq "Linux") {
 				system "display /tmp/$outfile &> /dev/null &";
 			}
 		} else {
-			print "Open $outfile to see the CAPTCHA, then enter it here:\n";
+			print "Open $outfile to see the CAPTCHA, then enter it here:";
 		}
 
 		$vericode = <>; # Wait for input
@@ -525,13 +534,13 @@ sub interject {
 	# Reset the referrer and delete the image
 	if ( $os eq "Linux") {unlink "/tmp/$outfile";}
     else {unlink $outfile;}
-
-    if ($vericode =~ /^\s*$/){print "Skipping Post\n\n";return} #skip post if blank input
+    # Skip post if blank input
+    if ($vericode =~ /^\s*$/){&log_msg("Skipping Post\n");return} 
     my ($url, $post_no, $page, $image_limit) = @_;
     my ($form, $interjection, $submit_button, $pic);
     $interjection = ">>$post_no\n" . $pasta;
     $pic = &select_pic;
-    #&log_msg("attached pic: $pic");
+    #&log_msg("Attatched: $pic");
 
     my $mechanize = WWW::Mechanize->new();
     $mechanize->get($url);
@@ -541,26 +550,26 @@ sub interject {
     unlink $pic;
 
     if ($mechanize->title eq "4chan - Banned"){print "Banned by Freedom-hating mods ;_;\n"; exit}
-    if (grep /successful/i, $mechanize->content()){print "Freedom Delivered!\n\n"} 
-    if (grep /mistyped/i, $mechanize->content()){print "Mistyped Captcha\n"; &interject($url, $post_no, $page); return} 
-    if (grep /flood/i, $mechanize->content()){print "Flood Detected\n\n"; return} 
-    if (grep /duplicate/i, $mechanize->content()){print "Duplicate Image\n"} 
-    if (grep /thread specified/i, $mechanize->content()){print "Thread 404d\n\n"; return} 
-    if (grep /max limit/i, $mechanize->content()){print "Image Limit\n"; &interject($url, $post_no, $page, 1); return} 
-    if (grep /too long/i, $mechanize->content()){print "Pasta too long ;_;\n\n"; exit} 
+    if (grep /successful/i, $mechanize->content()){&log_msg("Interjection to post $post_no successful. Freedom Delivered!\n");} 
+    if (grep /mistyped/i, $mechanize->content()){&log_msg("Mistyped Captcha\n"); &interject($url, $post_no, $page); return} 
+    if (grep /flood/i, $mechanize->content()){&log_msg("Flood Detected\n"); return} 
+    if (grep /duplicate/i, $mechanize->content()){&log_msg("Duplicate Image\n");} 
+    if (grep /thread specified/i, $mechanize->content()){&log_msg("Thread 404'd\n"); return} 
+    if (grep /max limit/i, $mechanize->content()){&log_msg("Image Limit\n"); &interject($url, $post_no, $page, 1); return} 
+    if (grep /too long/i, $mechanize->content()){&log_msg("Pasta too long ;_;\n"); exit} 
 
     sleep($min_post_interval + rand($post_interval_variation)); 
 }
 
-#sub log_msg {
-#    my $msg = shift;
-#    exit if ! $logging_enabled;
-#    my $now = DateTime->now;
-#    syswrite LOGGING, $now->ymd . " " . $now->hms . ": $msg\n" or die $!;
-#}
+sub log_msg {
+    my $msg = shift;
+    print("$msg\n");
+    my $now = DateTime->now;
+    if ($logging_enabled){syswrite LOGGING, $now->ymd . " " . $now->hms . ": $msg\n" or die $!;}
+}
 
 sub select_pic {
-#   Select a file from the array, resize it, and give it a random unix timestamp.
+	#   Select a file from the array, resize it, and give it a random unix timestamp.
     exit if ! @handsome_pics;
     my $filename = "/tmp/" . int(time() - rand(9999999)) . int(rand(888) + 100) . ".jpg";
     if ( $rainbow_rms ){system 'convert "' . @handsome_pics[int(rand(@handsome_pics))] . '" -resize ' . int(rand(20)+ 80) . '% -modulate 100,100,' . int(rand(999)) . ' '  . $filename;}

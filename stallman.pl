@@ -322,7 +322,9 @@ our $seal_pasta=<<FIN;
 What the fuck did you just fucking say about me, you little proprietary bitch? I'll have you know I graduated top of my class in the FSF, and I've been involved in numerous secret raids on Apple patents, and I have over 300 confirmed bug fixes. I am trained in Free Software Evangelizing and I'm the top code contributer for the entire GNU HURD. You are nothing to me but just another compile time error. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am building a GUI using GTK+ and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can decompile you in over seven hundred ways, and that's just with my Model M. Not only am I extensively trained in EMACS, but I have access to the entire arsenal of LISP functions and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little "clever" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit Freedom all over you and you will drown in it.
 FIN
 
-#gentoo is an exception
+our $gentoo_pasta=<<FIN;
+http://vocaroo.com/i/s06be5TtXOCT
+FIN
 
 
 our $mandriva_pasta=<<FIN;
@@ -418,22 +420,22 @@ sub scan_posts {
         s/&#44;/,/g;
 
         if (!$linus_mode) {
-        #if (/\sarch\s/i && ! /two usual problems/) {$match = 1;$pasta = $arch_pasta}
-        #if (/centos/i && ! /two usual ones/) {$match = 1;$pasta = $centos_pasta}
-        #if (/debian/i && ! /separately distributed proprietary programs/) {$match = 1;$pasta = $debian_pasta}
-        #if (/fedora/i && ! /allow that firmware in the/) {$match = 1;$pasta = $fedora_pasta}
-        #if (/mandriva/i && ! /it permits software released/) {$match = 1;$pasta = $mandriva_pasta}
-        #if (/opensuse/i && ! /offers its users access to a repository/) {$match = 1;$pasta = $opensuse_pasta}
-        #if (/red hat|rhel/i && ! /enterprise distribution primarily/) {$match = 1;$pasta = $redhat_pasta}
-        #if (/slackware/i && ! /two usual problems/) {$match = 1;$pasta = $slackware_pasta}
-        #if (/ubuntu/i && ! /provides specific repositories of nonfree/) {$match = 1;$pasta = $ubuntu_pasta}
+        if (/\sarch\s/i && ! /two usual problems/) {$match = 1;$pasta = $arch_pasta}
+        if (/centos/i && ! /two usual ones/) {$match = 1;$pasta = $centos_pasta}
+        if (/debian/i && ! /separately distributed proprietary programs/) {$match = 1;$pasta = $debian_pasta}
+        if (/fedora/i && ! /allow that firmware in the/) {$match = 1;$pasta = $fedora_pasta}
+        if (/mandriva/i && ! /it permits software released/) {$match = 1;$pasta = $mandriva_pasta}
+        if (/opensuse/i && ! /offers its users access to a repository/) {$match = 1;$pasta = $opensuse_pasta}
+        if (/red hat|rhel/i && ! /enterprise distribution primarily/) {$match = 1;$pasta = $redhat_pasta}
+        if (/slackware/i && ! /two usual problems/) {$match = 1;$pasta = $slackware_pasta}
+        if (/ubuntu/i && ! /provides specific repositories of nonfree/) {$match = 1;$pasta = $ubuntu_pasta}
         if (/fuck (linux|stallman|gpl)|stallman bot|stallmanbot|stallmanbots|stallbots|stallbot|rmsbot|stallman pls go|Shut your filthy hippy mouth, Richard/i) {$match = 1;$pasta = $seal_pasta;}
         if (/(free|open|net).?bsd/i && ! /all include instructions for obtaining nonfree/) {$match = 1;$pasta = $bsd_pasta}
         if (/bsd.style/i && ! /advertising clause/) {$match = 1;$pasta = $bsdstyle_pasta}
         if (/cloud computing|the cloud/i && ! /marketing buzzword/) {$match = 1;$pasta = $cloudcomp_pasta}
         if (/closed source/i && ! /lump us in with them/) {$match = 1;$pasta = $closed_pasta}
         if (/commercial/i && ! /nonprofit organizations|Canonical expressly promotes|encourages people to imagine/) {$match = 1;$pasta = $commercial_pasta}
-        #if (/consumer/i && ! /Digital Television Promotion/) {$match = 1;$pasta = $consumer_pasta}
+        if (/consumer/i && ! /Digital Television Promotion/) {$match = 1;$pasta = $consumer_pasta}
         if (/content/i && ! /(am|are) content|web site revision system|economic theory|contents/) {$match = 1;$pasta = $content_pasta}
         if (/digital goods/i && ! /erroneously identifies/) {$match = 1;$pasta = $digital_goods_pasta}
         if (/digital locks?/i && ! /digital handcuffs/) {$match = 1;$pasta = $digital_locks_pasta}
@@ -448,8 +450,8 @@ sub scan_posts {
         if (/monetize/i && ! /a productive and ethical business/) {$match = 1;$pasta = $monetize_pasta}
         if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$pasta = $mp3_pasta}
         if (/open source/i && ! /Free software is a political movement|lump us in with them/) {$match = 1;$pasta = $open_pasta}
-        #if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$pasta = $pc_pasta}
-        #if (/pa?edo(phile)?/i && ! /I am skeptical of the claim/) {$match = 1;$pasta = $pedo_pasta}
+        if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$pasta = $pc_pasta}
+        if (/pa?edo(phile)?/i && ! /I am skeptical of the claim/) {$match = 1;$pasta = $pedo_pasta}
         if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$pasta = $ps_pasta}
         if (/\spiracy|pirate/i && ! /sharing information with your neighbor|bay/) {$match = 1;$pasta = $piracy_pasta}
         if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$pasta = $powerpoint_pasta}
@@ -459,6 +461,7 @@ sub scan_posts {
         if (/trusted computing/i && ! /scheme to redesign computers/) {$match = 1;$pasta = $trustedcomp_pasta}
         if (/vendor/i && ! /recommend the general term/) {$match = 1;$pasta = $vendor_pasta}
         if (/The most important contributions that the FSF made/ ) {$match = 1;$pasta = $linus_pasta}
+        if (/gentoo/i && ! /http://vocaroo.com/i/) {$match = 1;$pasta = $gentoo_pasta}
         if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /(GNU|Gah?n(oo|ew))\s*(.|plus|with|and|slash)\s*(L(oo|i|u)n(oo|i|u)(x|cks))/i) {$match = 1;$pasta = $gnulinux_pasta}
     	} else {
     	if (/What you're referring to as Linux, is in fact, GNU\/Linux/i) {$match = 1;$pasta = $torvalds_pasta}

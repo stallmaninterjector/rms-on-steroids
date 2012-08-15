@@ -432,9 +432,9 @@ sub scan_posts {
         s/&#44;/,/g;
 
         if (!$linus_mode) {
-        if (/\sarch\s/i && ! /two usual problems/) {$match = 1;$pasta = $arch_pasta}
         if (/centos/i && ! /two usual ones/) {$match = 1;$pasta = $centos_pasta}
         if (/debian/i && ! /separately distributed proprietary programs/) {$match = 1;$pasta = $debian_pasta}
+        if (/\sarch\s/i && ! /two usual problems/) {$match = 1;$pasta = $arch_pasta}
         if (/fedora/i && ! /allow that firmware in the/) {$match = 1;$pasta = $fedora_pasta}
         if (/mandriva/i && ! /it permits software released/) {$match = 1;$pasta = $mandriva_pasta}
         if (/opensuse/i && ! /offers its users access to a repository/) {$match = 1;$pasta = $opensuse_pasta}
@@ -465,7 +465,7 @@ sub scan_posts {
         if (/pa?edo(phile)?/i && ! /I am skeptical of the claim|sexual interference with a human corpse/) {$match = 1;$pasta = $pedo_pasta}
         if (/necro(paedo)?phil(e|a)/i && ! /sexual interference with a human corpse|I am skeptical of the claim/i) {$match = 1; $pasta = $necro_pasta}
         if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$pasta = $ps_pasta}
-        if (/\spiracy|pirate/i && ! /sharing information with your neighbor|bay/) {$match = 1;$pasta = $piracy_pasta}
+        if (/\spiracy|pirate/i && ! /sharing information with your neighbor/) {$match = 1;$pasta = $piracy_pasta}
         if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$pasta = $powerpoint_pasta}
         if (/(drm|copyright) protection/i && ! /If you want to criticize copyright/) {$match = 1;$pasta = $protection_pasta}
         if (/sell(ing)? software/i && ! /imposing proprietary restrictions/) {$match = 1;$pasta = $sellsoft_pasta}
@@ -474,7 +474,7 @@ sub scan_posts {
         if (/vendor/i && ! /recommend the general term/) {$match = 1;$pasta = $vendor_pasta}
         if (/The most important contributions that the FSF made/ ) {$match = 1;$pasta = $linus_pasta}
         if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /(GNU|Gah?n(oo|ew))\s*(.|plus|with|and|slash)\s*(L(oo|i|u)n(oo|i|u)(x|cks))/i) {$match = 1;$pasta = $gnulinux_pasta}
-        if (/fuck (linux|stallman|gnu|gpl)|stallman.bots?|stallbot|rmsbot|stallman pls go|Shut your filthy hippy mouth, Richard/i) {$match = 1;$pasta = $seal_pasta;}
+        if (/fuck (linux|stallman|gnu|gpl)|stallman.bots?|stallbot|rmsbots?|stallman pls go|Shut your filthy hippy mouth, Richard/i) {$match = 1;$pasta = $seal_pasta;}
     	} else {
     	if (/What you're referring to as Linux, is in fact, GNU\/Linux/i) {$match = 1;$pasta = $torvalds_pasta}
     	}
@@ -498,7 +498,7 @@ sub interject {
 #   random amount of time.
 	chomp(my $os = `uname -s`);
     return if (invoke_curl("http://www.google.com/recaptcha/api/challenge?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc"));
-	
+
 	my ($challenge) = $output =~ m/challenge : '([A-z0-9-]+)',/;
 	my $outfile = random_string() . ".jpg";
 	if ($os eq "Linux") {return if (invoke_curl("http://www.google.com/recaptcha/api/image?c=$challenge -o /tmp/$outfile"));}
@@ -540,7 +540,7 @@ sub interject {
 
     unlink $pic;
 
-    if ($mechanize->status == "403"){print "Banned by Freedom-hating mods ;_;\n"; exit}
+    if ($mechanize->title eq "4chan - Banned"){print "Banned by Freedom-hating mods ;_;\n"; exit}
     if (grep /successful/i, $mechanize->content()){print "Freedom Delivered!\n\n"} 
     if (grep /mistyped/i, $mechanize->content()){print "Mistyped Captcha\n"; &interject($url, $post_no, $page); return} 
     if (grep /flood/i, $mechanize->content()){print "Flood Detected\n\n"; return} 

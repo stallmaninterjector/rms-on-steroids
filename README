@@ -20,8 +20,9 @@ Current commit includes the not-so-original bot.
 
 Dependencies:
 datetime
-mechanize
+WWW:Mechanize
 imagemagick
 
 Todo:
 Circumvent filters(unicode?)
+make @interjected centralized

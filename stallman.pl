@@ -36,23 +36,21 @@ my @threads;
 my $output;
 my $iteration = 0;
 my %boards = ( g => 'boards' );                     # Hash containing boards to sweep
-my $log_file = "$ENV{HOME}/log_interjection";
 my @ns_headers = (
     'User-Agent' => 'Mozilla/5.0 (X11; Gentoo; Linux i686; rv:14.0) Gecko/20100101 Firefox/14.0.1',
     'Accept-Charset' => 'iso-8859-1,*,utf-8',
     'Accept-Language' => 'en-US',
     'Referer' => 'https://boards.4chan.org/g/',
 );
+#my $log_file = "$ENV{HOME}/log_interjection";
 
-
-our $logging_enabled = 1;
 our $linus_mode = 0;								# Freedom hating linus mode
 our $pic_path = "$ENV{HOME}/rms/";					# Image directory
 our $scan_interval = 10;                            # Interval between each sweep of all boards
 our $min_post_interval = 30;        				# Minimum delay after each individual interjection
 our $post_interval_variation = 5;                   # Upper threshold of random additional delay after interjecting
 our $password = int(rand(99999999));                # Generate random password for stallman
-our $rainbow_rms = 1;                               # Give images random hue
+our $rainbow_rms = 0;                               # Give images random hue
 our @handsome_pics = <$pic_path*>;
 
 our $total_posts = 0;
@@ -355,12 +353,12 @@ Nonfree firmware programs used with the kernel, are called "blobs", and that's h
 No BSD distribution has policies against proprietary binary-only firmware that might be loaded even by free drivers.
 FIN
 
-open LOGGING, ">", $log_file or die $!; # Log file location
-print "...logging to $log_file\n";
+#open LOGGING, ">", $log_file or die $!; # Log file location
+#print "...logging to $log_file\n";
 
 while (1) {
 	print "Iteration $iteration.\n";
-	&log_msg("Iteration $iteration");
+	#&log_msg("Iteration $iteration");
     for (sort keys %boards) {
 #       Aggregate listing of threads on front page of board,
 #       pass each thread to &scan_posts to read.
@@ -373,7 +371,7 @@ while (1) {
         &scan_posts("http://boards.4chan.org/$board/res/$_") for @threads;
     }
     print "Ending iteration $iteration. Will resume in $scan_interval.\n";
-    &log_msg("Ending iteration $iteration. Will resume in $scan_interval.\n");
+    #&log_msg("Ending iteration $iteration. Will resume in $scan_interval.\n");
     sleep($scan_interval);  # long pause between sweeps.
     $iteration++;
 }
@@ -467,7 +465,7 @@ sub scan_posts {
             if ($match){
             next if grep {$_ == $no} @interjected;
 
-            &log_msg("URL: $thread_url post: $no POST: $_");
+            #&log_msg("URL: $thread_url post: $no POST: $_");
 
             print "Post Number: $no\nPost: $_\nURL: $thread_url";
             &interject($thread_url, $no, $page);
@@ -516,7 +514,7 @@ sub interject {
     my ($form, $interjection, $submit_button, $pic);
     $interjection = ">>$post_no\n" . $pasta;
     $pic = &select_pic;
-    &log_msg("attached pic: $pic");
+    #&log_msg("attached pic: $pic");
 
     my $mechanize = WWW::Mechanize->new();
     $mechanize->get($url);
@@ -537,12 +535,12 @@ sub interject {
     sleep($min_post_interval + rand($post_interval_variation)); 
 }
 
-sub log_msg {
-    my $msg = shift;
-    exit if ! $logging_enabled;
-    my $now = DateTime->now;
-    syswrite LOGGING, $now->ymd . " " . $now->hms . ": $msg\n" or die $!;
-}
+#sub log_msg {
+#    my $msg = shift;
+#    exit if ! $logging_enabled;
+#    my $now = DateTime->now;
+#    syswrite LOGGING, $now->ymd . " " . $now->hms . ": $msg\n" or die $!;
+#}
 
 sub select_pic {
 #   Select a file from the array, resize it, and give it a random unix timestamp.

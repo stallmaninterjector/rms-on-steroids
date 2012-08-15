@@ -241,6 +241,22 @@ Some rules might be called for when these acts directly affect other people's in
 I am skeptical of the claim that voluntarily pedophilia harms children. The arguments that it causes harm seem to be based on cases which aren't voluntary, which are then stretched by parents who are horrified by the idea that their little baby is maturing. This is illegal only because of prejudice and narrowmindedness.
 FIN
 
+our $necro_pasta=<<FIN;
+The concept of "sexual interference with a human corpse" is curious. All a corpse can do is decay, so the only possible kind of interference is to prevent its decay. Thus, "sexual interference" ought to mean playing with the corpse's genitals while injecting embalming fluid, or while putting it into a refrigerator. However, I doubt that the censors interpret this term rationally. They will have cooked up an excuse for some twisted interpretation of the term.
+
+This censorship cannot be justified by protecting corpses from suffering. Whatever you do to a corpse, it can't suffer, not even emotionally.
+FIN
+
+our $beast_pasta=<<FIN;
+There is the prohibition of realistically depicting sex with an animal. This law is not only unjust, it's spectacularly irrational. The law does not care whether the animal wanted sex. I've read that male dolphins try to have sex with humans, and female apes sollicit sex from humans. What is wrong with giving them what they want, if that's what turns you on, or even just to gratify them?
+
+But this law is not concerned with protecting animals, since it does not care whether the animal really had sex, or really existed at all. It only panders to the prejudice of censors.
+
+A parrot once had sex with me. I did not recognize the act as sex until it was explained to me afterward, but being stroked by his soft feathers was so pleasurable that I yearn for another chance. I have a photo of that act; should I go to prison for it?
+
+Perhaps I am spared because this photo isn't "disgusting", but "disgusting" is a subjective matter; we must not imprison people merely because someone feels disgusted. I find the sight of wounds disgusting; fortunately surgeons do not. Maybe there is someone who considers it disgusting for a parrot to have sex with a human. Or for a dolphin or tiger to have sex with a human. So what? Others feel that all sex is disgusting. 
+FIN
+
 our $ps_pasta=<<FIN;
 Please avoid using the term "photoshop" as a verb, meaning any kind of photo manipulation or image editing in general. Photoshop is just the name of one particular image editing program, which should be avoided since it is proprietary. There are plenty of free programs for editing images, such as the GIMP.
 FIN
@@ -425,7 +441,6 @@ sub scan_posts {
         if (/red hat|rhel/i && ! /enterprise distribution primarily/) {$match = 1;$pasta = $redhat_pasta}
         if (/slackware/i && ! /two usual problems/) {$match = 1;$pasta = $slackware_pasta}
         if (/ubuntu/i && ! /provides specific repositories of nonfree/) {$match = 1;$pasta = $ubuntu_pasta}
-        if (/fuck (linux|stallman|gpl)|stallman bot|stallmanbot|stallmanbots|stallbots|stallbot|rmsbot|stallman pls go|Shut your filthy hippy mouth, Richard/i) {$match = 1;$pasta = $seal_pasta;}
         if (/(free|open|net).?bsd/i && ! /all include instructions for obtaining nonfree/) {$match = 1;$pasta = $bsd_pasta}
         if (/bsd.style/i && ! /advertising clause/) {$match = 1;$pasta = $bsdstyle_pasta}
         if (/cloud computing|the cloud/i && ! /marketing buzzword/) {$match = 1;$pasta = $cloudcomp_pasta}
@@ -447,7 +462,8 @@ sub scan_posts {
         if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$pasta = $mp3_pasta}
         if (/open source/i && ! /Free software is a political movement|lump us in with them/) {$match = 1;$pasta = $open_pasta}
         if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$pasta = $pc_pasta}
-        if (/pa?edo(phile)?/i && ! /I am skeptical of the claim/) {$match = 1;$pasta = $pedo_pasta}
+        if (/pa?edo(phile)?/i && ! /I am skeptical of the claim|sexual interference with a human corpse/) {$match = 1;$pasta = $pedo_pasta}
+        if (/necro(paedo)?phil(e|a)/i && ! /sexual interference with a human corpse|I am skeptical of the claim/i) {$match = 1; $pasta = $necro_pasta}
         if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$pasta = $ps_pasta}
         if (/\spiracy|pirate/i && ! /sharing information with your neighbor|bay/) {$match = 1;$pasta = $piracy_pasta}
         if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$pasta = $powerpoint_pasta}
@@ -458,6 +474,7 @@ sub scan_posts {
         if (/vendor/i && ! /recommend the general term/) {$match = 1;$pasta = $vendor_pasta}
         if (/The most important contributions that the FSF made/ ) {$match = 1;$pasta = $linus_pasta}
         if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /(GNU|Gah?n(oo|ew))\s*(.|plus|with|and|slash)\s*(L(oo|i|u)n(oo|i|u)(x|cks))/i) {$match = 1;$pasta = $gnulinux_pasta}
+        if (/fuck (linux|stallman|gnu|gpl)|stallman.bots?|stallbot|rmsbot|stallman pls go|Shut your filthy hippy mouth, Richard/i) {$match = 1;$pasta = $seal_pasta;}
     	} else {
     	if (/What you're referring to as Linux, is in fact, GNU\/Linux/i) {$match = 1;$pasta = $torvalds_pasta}
     	}

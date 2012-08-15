@@ -43,9 +43,9 @@ my @ns_headers = (
     'Referer' => 'https://boards.4chan.org/g/',
 );
 
-our $logging_enabled = 1;
-our $linus_mode = 0;								# Freedom hating linus mode
 our $pic_path = "$ENV{HOME}/rms/";					# Image directory
+our $logging_enabled = 1;
+our $linus_mode = 0;								# Freedom hating Linus mode
 our $scan_interval = 10;                            # Interval between each sweep of all boards
 our $min_post_interval = 30;        				# Minimum delay after each individual interjection
 our $post_interval_variation = 5;                   # Upper threshold of random additional delay after interjecting
@@ -58,7 +58,7 @@ our $total_posts = 0;
 our @interjected;                                   # Track posts already responded to.
 our $browser = LWP::UserAgent->new;
 
-#pasta list
+# Delicious pasta
 our $pasta =<<FIN;
 I'd just like to interject for one moment. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
@@ -282,6 +282,10 @@ If you want to criticize copyright instead of supporting it, you can use the ter
 The term "protection" is also used to describe malicious features. For instance, "copy protection" is a feature that interferes with copying. From the user's point of view, this is obstruction. So we could call that malicious feature "copy obstruction." More often it is called Digital Restrictions Management (DRM)--see the Defective by Design campaign.
 FIN
 
+our $seal_pasta=<<FIN;
+What the fuck did you just fucking say about me, you little proprietary bitch? I'll have you know I graduated top of my class in the FSF, and I've been involved in numerous secret raids on Apple patents, and I have over 300 confirmed bug fixes. I am trained in Free Software Evangelizing and I'm the top code contributer for the entire GNU HURD. You are nothing to me but just another compile time error. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am building a GUI using GTK+ and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can decompile you in over seven hundred ways, and that's just with my Model M. Not only am I extensively trained in EMACS, but I have access to the entire arsenal of LISP functions and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little "clever" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit Freedom all over you and you will drown in it.
+FIN
+
 our $sellsoft_pasta=<<FIN;
 The term "sell software" is ambiguous. Strictly speaking, exchanging a copy of a free program for a sum of money is selling; but people usually associate the term "sell" with proprietary restrictions on the subsequent use of the software. You can be more precise, and prevent confusion, by saying either "distributing copies of a program for a fee" or "imposing proprietary restrictions on the use of a program," depending on what you mean.
 FIN
@@ -309,8 +313,7 @@ our $vendor_pasta=<<FIN;
 Please don't use the term "vendor" to refer generally to anyone that develops or packages software. Many programs are developed in order to sell copies, and their developers are therefore their vendors; this even includes some free software packages. However, many programs are developed by volunteers or organizations which do not intend to sell copies. These developers are not vendors. Likewise, only some of the packagers of GNU/Linux distributions are vendors. We recommend the general term "supplier" instead. 
 FIN
 
-
-#Distro pasta list
+# Distro pasta
 our $arch_pasta=<<FIN;
 Arch has the two usual problems: there's no clear policy about what software can be included, and nonfree blobs are shipped with their kernel. Arch also has no policy about not distributing nonfree software through their normal channels.
 FIN
@@ -331,12 +334,7 @@ our $fedora_pasta=<<FIN;
 Fedora does have a clear policy about what can be included in the distribution, and it seems to be followed carefully. The policy requires that most software and all fonts be available under a free license, but makes an exception for certain kinds of nonfree firmware. Unfortunately, the decision to allow that firmware in the policy keeps Fedora from meeting the free system distribution guidelines.
 FIN
 
-our $seal_pasta=<<FIN;
-What the fuck did you just fucking say about me, you little proprietary bitch? I'll have you know I graduated top of my class in the FSF, and I've been involved in numerous secret raids on Apple patents, and I have over 300 confirmed bug fixes. I am trained in Free Software Evangelizing and I'm the top code contributer for the entire GNU HURD. You are nothing to me but just another compile time error. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am building a GUI using GTK+ and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can decompile you in over seven hundred ways, and that's just with my Model M. Not only am I extensively trained in EMACS, but I have access to the entire arsenal of LISP functions and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little "clever" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit Freedom all over you and you will drown in it.
-FIN
-
-#gentoo is an exception
-
+# install gentoo
 
 our $mandriva_pasta=<<FIN;
 Mandriva does have a stated policy about what can be included in the main system. It's based on Fedora's, which means that it also allows certain kinds of nonfree firmware to be included. On top of that, it permits software released under the original Artistic License to be included, even though that's a nonfree license.
@@ -388,9 +386,8 @@ if ($logging_enabled) {
 while (1) {
     &log_msg("Iteration: $iteration");
     for (sort keys %boards) {
-#       Aggregate listing of threads on front page of board,
-#       pass each thread to &scan_posts to read.
-
+		# Aggregate listing of threads on front page of board,
+		# pass each thread to &scan_posts to read.
         my ($srvr, $board) = ($boards{$_}, $_);
         my $board_url = "http://boards.4chan.org/$board/0";
         my $page = ($browser->get($board_url, @ns_headers))->content;
@@ -399,7 +396,7 @@ while (1) {
         &scan_posts("http://boards.4chan.org/$board/res/$_") for @threads;
     }
     &log_msg("Ending iteration $iteration. Will resume in $scan_interval.");
-    sleep($scan_interval);  # long pause between sweeps.
+    sleep($scan_interval);  # pause between sweeps.
     $iteration++;
 }
 sub random_string(;$)
@@ -418,7 +415,6 @@ sub invoke_curl($)
 
 	my $command = "curl $options --progress-bar -s -S -f ";
 	$output = `$command`;
-	print "";
 
 	return $?;
 }
@@ -474,7 +470,7 @@ sub scan_posts {
         if (/open source/i && ! /Free software is a political movement|lump us in with them/) {$match = 1;$pasta = $open_pasta}
         if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$pasta = $pc_pasta}
         if (/pa?edo(phile)?/i && ! /I am skeptical of the claim|sexual interference with a human corpse/) {$match = 1;$pasta = $pedo_pasta}
-        if (/necro(paedo)?phil(e|a)/i && ! /sexual interference with a human corpse|I am skeptical of the claim/i) {$match = 1; $pasta = $necro_pasta}
+        if (/necro(pa?edo)?phil(e|a)/i && ! /sexual interference with a human corpse|I am skeptical of the claim/i) {$match = 1; $pasta = $necro_pasta}
         if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$pasta = $ps_pasta}
         if (/\spiracy|pirate/i && ! /sharing information with your neighbor/) {$match = 1;$pasta = $piracy_pasta}
         if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$pasta = $powerpoint_pasta}
@@ -532,7 +528,7 @@ sub interject {
 		}
 
 	# Reset the referrer and delete the image
-	if ( $os eq "Linux") {unlink "/tmp/$outfile";}
+	if ($os eq "Linux") {unlink "/tmp/$outfile";}
     else {unlink $outfile;}
     # Skip post if blank input
     if ($vericode =~ /^\s*$/){&log_msg("Skipping Post\n");return} 
@@ -569,10 +565,10 @@ sub log_msg {
 }
 
 sub select_pic {
-	#   Select a file from the array, resize it, and give it a random unix timestamp.
+	# Select a file from the array, resize it, and give it a random unix timestamp.
     exit if ! @handsome_pics;
     my $filename = "/tmp/" . int(time() - rand(9999999)) . int(rand(888) + 100) . ".jpg";
-    if ( $rainbow_rms ){system 'convert "' . @handsome_pics[int(rand(@handsome_pics))] . '" -resize ' . int(rand(20)+ 80) . '% -modulate 100,100,' . int(rand(999)) . ' '  . $filename;}
+    if ($rainbow_rms){system 'convert "' . @handsome_pics[int(rand(@handsome_pics))] . '" -resize ' . int(rand(20)+ 80) . '% -modulate 100,100,' . int(rand(999)) . ' '  . $filename;}
     else {system 'convert "' . @handsome_pics[int(rand(@handsome_pics))] . '" -resize ' . int(rand(20)+ 80) . '% ' . $filename;}
     return $filename;
 }

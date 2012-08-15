@@ -513,7 +513,7 @@ sub interject {
     else {unlink $outfile;}
 
     if ($vericode =~ /^\s*$/){print "Skipping Post\n\n";return} #skip post if blank input
-    my ($url, $post_no, $page, ) = @_;
+    my ($url, $post_no, $page, $image_limit) = @_;
     my ($form, $interjection, $submit_button, $pic);
     $interjection = ">>$post_no\n" . $pasta;
     $pic = &select_pic;
@@ -521,15 +521,9 @@ sub interject {
 
     my $mechanize = WWW::Mechanize->new();
     $mechanize->get($url);
-    $mechanize->submit_form(
-                form_number => 1,
-                        fields      => { 
-                            com => $interjection,
-                            recaptcha_challenge_field => $challenge,
-                            recaptcha_response_field => $vericode,
-                            upfile => $pic,
-                            pwd => $password},
-                            );
+    if ($image_limit){$mechanize->submit_form( form_number => 1, fields => { com => $interjection, recaptcha_challenge_field => $challenge, recaptcha_response_field => $vericode, pwd => $password},);} 
+    else {$mechanize->submit_form( form_number => 1, fields => { com => $interjection, recaptcha_challenge_field => $challenge, recaptcha_response_field => $vericode, upfile => $pic, pwd => $password},);}
+
     unlink $pic;
 
     if ( $mechanize->status == "403"){print "Banned by Freedom-hating mods ;_;\n"; exit}
@@ -537,6 +531,8 @@ sub interject {
     if ( grep /mistyped/i, $mechanize->content()){print "Mistyped Captcha\n"; &interject($url, $post_no, $page); return} 
     if ( grep /flood/i, $mechanize->content()){print "Flood Detected\n\n"; return} 
     if ( grep /duplicate/i, $mechanize->content()){print "Duplicate Image\n"} 
+    if ( grep /thread specified/i, $mechanize->content()){print "Thread 404d\n\n"; return} 
+    if ( grep /max limit/i, $mechanize->content()){print "Image Limit\n"; &interject($url, $post_no, $page, 1); return} 
 
     sleep($min_post_interval + rand($post_interval_variation)); 
 }

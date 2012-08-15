@@ -20,7 +20,9 @@ Current commit includes the not-so-original bot.
 
 Dependencies:
 datetime
-mechanize
+WWW:Mechanize
+imagemagick
 
 Todo:
-Resize image before upload
+Circumvent filters(unicode?)
+make @interjected centralized

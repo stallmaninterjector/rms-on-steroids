@@ -18,6 +18,8 @@ If you weren’t there for that thread, the idea was to do the following:
 -Deliver freedom to /g/
 Current commit includes the not-so-original bot.
 
+PLEASE: If you are banned because of this bot, please report the issue to one of the devs(me or Stallmanu)
+
 Dependencies:
 datetime
 WWW:Mechanize

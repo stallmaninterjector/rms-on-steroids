@@ -59,6 +59,169 @@ our $total_posts = 0;
 our @interjected;                                   # Track posts already responded to.
 our $browser = LWP::UserAgent->new;
 
+my @replacements = (
+# GNU/Linux pasta replacements
+    sub {$_[0] =~ s/\bI'd\b/I would/g;},
+    sub {$_[0] =~ s/\bI'd\b/Pardon, but I'd/g;},
+    sub {$_[0] =~ s/\bI'd like to\b/If I may/g;},
+    sub {$_[0] =~ s/\bjust\b/simply/g;},
+    sub {$_[0] =~ s/\bjust a\b/but a/g;},
+    sub {$_[0] =~ s/\bbutt in\b/cut in/g;},
+    sub {$_[0] =~ s/\bbutt in\b/hold you up/g;},
+    sub {$_[0] =~ s/\bbutt in\b/cut you off there/g;},
+    sub {$_[0] =~ s/\bbutt in\b/take your time/g;},
+    sub {$_[0] =~ s/\bcut in\b/interrupt/g;},
+    sub {$_[0] =~ s/\bmoment\b/bit/g;},
+    sub {$_[0] =~ s/\bmoment\b/short while/g;},
+    sub {$_[0] =~ s/\bbit\b/second/g;},
+    sub {$_[0] =~ s/\breferring\b/alluding/g;},
+    sub {$_[0] =~ s/\breferring to as\b/calling/g;},
+    sub {$_[0] =~ s/\breferring to as\b/proclaiming to be/g;},
+    sub {$_[0] =~ s/\bis in fact\b/is in actuality/g;},
+    sub {$_[0] =~ s/\bis in fact\b/is really/g;},
+    sub {$_[0] =~ s/\bI've\b/I have/g;},
+    sub {$_[0] =~ s/\bI've recently taken to calling\b/I just the other day began to call/g;},
+    sub {$_[0] =~ s/\brecently\b/of late/g;},
+    sub {$_[0] =~ s/\brecently\b/lately/g;},
+    sub {$_[0] =~ s/\brecently taken to \b/not long ago started/g;},
+    sub {$_[0] =~ s/\bplus\b/+/g;},
+    sub {$_[0] =~ s/\bplus\b/with/g;},
+    sub {$_[0] =~ s/\bis not\b/isn't/g;},
+    sub {$_[0] =~ s/\boperating system\b/OS/g;},
+    sub {$_[0] =~ s/\bunto itself\b/on its own/g;},
+    sub {$_[0] =~ s/\bunto\b/by/g;},
+    sub {$_[0] =~ s/\brather\b/actually/g;},
+    sub {$_[0] =~ s/\brather\b/really/g;},
+    sub {$_[0] =~ s/\bcomponent\b/piece/g;},
+    sub {$_[0] =~ s/\bcomponent\b/part/g;},
+    sub {$_[0] =~ s/\bfully\b/completely/g;},
+    sub {$_[0] =~ s/\bfunctioning\b/working/g;},
+    sub {$_[0] =~ s/\bfunctioning\b/operational/g;},
+    sub {$_[0] =~ s/\bsystem\b/setup/g;},
+    sub {$_[0] =~ s/\bmade useful\b/fashioned into something useful/g;},
+    sub {$_[0] =~ s/\buseful\b/proper/g;},
+    sub {$_[0] =~ s/\buseful\b/practical/g;},
+    sub {$_[0] =~ s/\buseful\b/of service/g;},
+    sub {$_[0] =~ s/\bcorelibs\b/core libraries/g;},
+    sub {$_[0] =~ s/\bcorelibs\b/libraries/g;},
+    sub {$_[0] =~ s/\bcorelibs\b/libs/g;},
+    sub {$_[0] =~ s/\bcorelibs\b/central libs/g;},
+    sub {$_[0] =~ s/\bshell\b/terminal/g;},
+    sub {$_[0] =~ s/\butilities\b/tools/g;},
+    sub {$_[0] =~ s/\butilities\b/facilities/g;},
+    sub {$_[0] =~ s/\butilities\b/facilities/g;},
+    sub {$_[0] =~ s/\bvital\b/essential/g;},
+    sub {$_[0] =~ s/\bvital\b/necessary/g;},
+    sub {$_[0] =~ s/\bvital\b/required/g;},
+    sub {$_[0] =~ s/\bcomprising\b/completing/g;},
+    sub {$_[0] =~ s/\bcomprising\b/fulfilling/g;},
+    sub {$_[0] =~ s/\bMany computer\b/Quite a few computer/g;},
+    sub {$_[0] =~ s/\bMany computer\b/A sizeable amount of computer/g;},
+    sub {$_[0] =~ s/\bMany computer\b/There are many/g;},
+    sub {$_[0] =~ s/\bMany computer\b/There are numerous/g;},
+    sub {$_[0] =~ s/\busers\b/holders/g;},
+    sub {$_[0] =~ s/\busers\b/possesors/g;},
+    sub {$_[0] =~ s/\brun a\b/use a/g;},
+    sub {$_[0] =~ s/\brun a\b/operate a/g;},
+    sub {$_[0] =~ s/\bmodified version\b/subspecies/g;},
+    sub {$_[0] =~ s/\bversion\b/edition/g;},
+    sub {$_[0] =~ s/\bmodified\b/altered/g;},
+    sub {$_[0] =~ s/\bmodified\b/changed/g;},
+    sub {$_[0] =~ s/\bmodified\b/tweaked/g;},
+    sub {$_[0] =~ s/\bof the GNU\b/of the original/g;},
+    sub {$_[0] =~ s/\bof the GNU system\b/of the original/g;},
+    sub {$_[0] =~ s/\bevery day\b/everyday/g;},
+    sub {$_[0] =~ s/\bevery day\b/daily/g;},
+    sub {$_[0] =~ s/\bevery day\b/every single day/g;},
+    sub {$_[0] =~ s/\bevery day\b/constantly/g;},
+    sub {$_[0] =~ s/\bevery day\b/regularly/g;},
+    sub {$_[0] =~ s/\bevery day\b/routinely/g;},
+    sub {$_[0] =~ s/\bwithout realizing it\b/without realizing/g;},
+    sub {$_[0] =~ s/\bwithout realizing\b/but do not realize/g;},
+    sub {$_[0] =~ s/\brealize\b/know/g;},
+    sub {$_[0] =~ s/\bdo not realize\b/are not aware of/g;},
+    sub {$_[0] =~ s/\bwithout realizing\b/without knowing/g;},
+    sub {$_[0] =~ s/\bwithout realizing it\b/without knowledge of it/g;},
+    sub {$_[0] =~ s/\bwithout realizing\b/without even realizing/g;},
+    sub {$_[0] =~ s/\bThrough a\b/By a/g;},
+    sub {$_[0] =~ s/\bThrough a\b/Because of a/g;},
+    sub {$_[0] =~ s/\bpeculiar\b/strange/g;},
+    sub {$_[0] =~ s/\bpeculiar\b/unseen/g;},
+    sub {$_[0] =~ s/\bpeculiar\b/weird/g;},
+    sub {$_[0] =~ s/\bturn of events\b/happenstance/g;},
+    sub {$_[0] =~ s/\bturn of events\b/series of situations/g;},
+    sub {$_[0] =~ s/\bturn of events\b/series of events/g;},
+    sub {$_[0] =~ s/\bGNU which is\b/GNU that is/g;},
+    sub {$_[0] =~ s/\bGNU that is\b/GNU that is being/g;},
+    sub {$_[0] =~ s/\bwidely\b/broadly/g;},
+    sub {$_[0] =~ s/\bused\b/utilized/g;},
+    sub {$_[0] =~ s/\bused\b/applied/g;},
+    sub {$_[0] =~ s/\bused\b/installed/g;},
+    sub {$_[0] =~ s/\btoday\b/now/g;},
+    sub {$_[0] =~ s/\btoday\b/these days/g;},
+    sub {$_[0] =~ s/\bmany\b/a substantial number/g;},
+    sub {$_[0] =~ s/\bits users\b/the users/g;},
+    sub {$_[0] =~ s/\bits users\b/this userbase/g;},
+    sub {$_[0] =~ s/\bits users\b/this population/g;},
+    sub {$_[0] =~ s/\bthis population\b/the population/g;},
+    sub {$_[0] =~ s/\bare not aware\b/do not know/g;},
+    sub {$_[0] =~ s/\bare not aware\b/have no knowledge/g;},
+    sub {$_[0] =~ s/\breally is a\b/is in fact a/g;},
+    sub {$_[0] =~ s/\breally is a\b/actually is a/g;},
+    sub {$_[0] =~ s/\breally is a\b/truly is a/g;},
+    sub {$_[0] =~ s/\bthese people\b/this population/g;},
+    sub {$_[0] =~ s/\bthese people\b/they/g;},
+    sub {$_[0] =~ s/\bbasically\b/practically/g;},
+    sub {$_[0] =~ s/\bbasically\b/really/g;},
+    sub {$_[0] =~ s/\bbasically\b/in actuality/g;},
+    sub {$_[0] =~ s/\bdeveloped\b/created/g;},
+    sub {$_[0] =~ s/\bdeveloped\b/made/g;},
+    sub {$_[0] =~ s/\bdeveloped\b/produced/g;},
+    sub {$_[0] =~ s/\bdeveloped\b/designed/g;},
+    sub {$_[0] =~ s/\bby the GNU Project\b/by GNU/g;},
+    sub {$_[0] =~ s/\bby the GNU Project\b/by the FSF/g;},
+    sub {$_[0] =~ s/\bby the GNU Project\b/by GNU developers/g;},
+    sub {$_[0] =~ s/\bwith Linux added\b/with the addition of Linux/g;},
+    sub {$_[0] =~ s/\bwith Linux added\b/with Linux added on/g;},
+    sub {$_[0] =~ s/\bare using it\b/do have it installed/g;},
+    sub {$_[0] =~ s/\bare using it\b/are indeed using it/g;},
+    sub {$_[0] =~ s/\busing it,\b/making use of it,/g;},
+    sub {$_[0] =~ s/\bjust a part\b/simply a portion/g;},
+    sub {$_[0] =~ s/\bjust a part\b/but a portion/g;},
+    sub {$_[0] =~ s/\bjust a part\b/but a part/g;},
+    sub {$_[0] =~ s/\bkernel\b/core/g;},
+    sub {$_[0] =~ s/\bprogram in the\b/part of the/g;},
+    sub {$_[0] =~ s/\ballocates\b/distributes/g;},
+    sub {$_[0] =~ s/\ballocates\b/gives out/g;},
+    sub {$_[0] =~ s/\bis an essential part\b/is a necessary part/g;},
+    sub {$_[0] =~ s/\bbut useless by itself\b/but cannot work on its own/g;},
+    sub {$_[0] =~ s/\bbut useless by itself\b/but relies on the rest of the system to work/g;},
+    sub {$_[0] =~ s/\brest of the system to work\b/rest of the system/g;},
+    sub {$_[0] =~ s/\bit can only function\b/it is only operational/g;},
+    sub {$_[0] =~ s/\bit can only function\b/it will work only/g;},
+    sub {$_[0] =~ s/\bcontext\b/shadow/g;},
+    sub {$_[0] =~ s/\bcontext\b/structure/g;},
+    sub {$_[0] =~ s/\bcontext\b/environment/g;},
+    sub {$_[0] =~ s/\bcontext\b/habitat/g;},
+    sub {$_[0] =~ s/\bcomplete\b/whole/g;},
+    sub {$_[0] =~ s/\bcomplete\b/fully developed/g;},
+    sub {$_[0] =~ s/\bis normally\b/is commonly/g;},
+    sub {$_[0] =~ s/\bis commonly\b/is most commonly/g;},
+    sub {$_[0] =~ s/\bis commonly\b/is often/g;},
+    sub {$_[0] =~ s/\bused in combination\b/paired/g;},
+    sub {$_[0] =~ s/\bused in combination\b/used/g;},
+    sub {$_[0] =~ s/\bused in combination\b/operated in combination/g;},
+    sub {$_[0] =~ s/\bAll the so\b/Every one of the so/g;},
+    sub {$_[0] =~ s/\bAll the so\b/All of the so/g;},
+    sub {$_[0] =~ s/\bAll of the so\b/Every single/g;},
+    sub {$_[0] =~ s/\bso-called\b//g;},
+    sub {$_[0] =~ s/\bso-called\b/alleged/g;},
+    sub {$_[0] =~ s/\bso-called\b/supposed/g;},
+    sub {$_[0] =~ s/\bdistributions\b/distros/g;},
+    sub {$_[0] =~ s/\bdistributions\b/releases/g;},
+    sub {$_[0] =~ s/\bjust\b/simply/g;}
+);
+
 #pasta list
 our $pasta =<<FIN;
 I'd just like to interject for one moment. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
@@ -431,35 +594,35 @@ sub scan_posts {
         if (/ubuntu/i && ! /provides specific repositories of nonfree/) {$match = 1;$pasta = $ubuntu_pasta}
         if (/fuck (linux|stallman|gpl)|stallman bot|stallmanbot|stallmanbots|stallbots|stallbot|rmsbot|stallman pls go|Shut your filthy hippy mouth, Richard/i) {$match = 1;$pasta = $seal_pasta;}
         if (/(free|open|net).?bsd/i && ! /all include instructions for obtaining nonfree/) {$match = 1;$pasta = $bsd_pasta}
-        if (/bsd.style/i && ! /advertising clause/) {$match = 1;$pasta = $bsdstyle_pasta}
-        if (/cloud computing|the cloud/i && ! /marketing buzzword/) {$match = 1;$pasta = $cloudcomp_pasta}
-        if (/closed source/i && ! /lump us in with them/) {$match = 1;$pasta = $closed_pasta}
-        if (/commercial/i && ! /nonprofit organizations|Canonical expressly promotes|encourages people to imagine/) {$match = 1;$pasta = $commercial_pasta}
-        if (/consumer/i && ! /Digital Television Promotion/) {$match = 1;$pasta = $consumer_pasta}
-        if (/content/i && ! /(am|are) content|web site revision system|economic theory|contents/) {$match = 1;$pasta = $content_pasta}
-        if (/digital goods/i && ! /erroneously identifies/) {$match = 1;$pasta = $digital_goods_pasta}
-        if (/digital locks?/i && ! /digital handcuffs/) {$match = 1;$pasta = $digital_locks_pasta}
-        if (/drm|digital rights management/i && ! /lead you unawares|If you want to criticize copyright/) {$match = 1;$pasta = $drm_pasta}
-        if (/ecosystem/i && ! /implicitly suggests an attitude/) {$match = 1;$pasta = $eco_pasta}
-        if (/freeware|free.ware/i && ! /often in the 1980s/) {$match = 1;$pasta = $freeware_pasta}
-        if (/give away software/i && ! /This locution has/) {$match = 1;$pasta = $give_pasta}
-        if (/hacker/i && ! /playful cleverness--not/) {$match = 1;$pasta = $hacker_pasta}
-        if (/intellectual property/i && ! /hidden assumption--that|web site revision system/) {$match = 1;$pasta = $ip_pasta}
-        if (/\slamp/i && ! /glamp/i) {$match = 1;$pasta = $lamp_pasta}
-        if (/software market/i && ! /is a social movement/i) {$match = 1;$pasta = $market_pasta}
-        if (/monetize/i && ! /a productive and ethical business/) {$match = 1;$pasta = $monetize_pasta}
-        if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$pasta = $mp3_pasta}
-        if (/open source/i && ! /Free software is a political movement|lump us in with them/) {$match = 1;$pasta = $open_pasta}
-        if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$pasta = $pc_pasta}
+        #if (/bsd.style/i && ! /advertising clause/) {$match = 1;$pasta = $bsdstyle_pasta}
+        #if (/cloud computing|the cloud/i && ! /marketing buzzword/) {$match = 1;$pasta = $cloudcomp_pasta}
+        #if (/closed source/i && ! /lump us in with them/) {$match = 1;$pasta = $closed_pasta}
+        #if (/commercial/i && ! /nonprofit organizations|Canonical expressly promotes|encourages people to imagine/) {$match = 1;$pasta = $commercial_pasta}
+        #if (/consumer/i && ! /Digital Television Promotion/) {$match = 1;$pasta = $consumer_pasta}
+        #if (/content/i && ! /(am|are) content|web site revision system|economic theory|contents/) {$match = 1;$pasta = $content_pasta}
+        #if (/digital goods/i && ! /erroneously identifies/) {$match = 1;$pasta = $digital_goods_pasta}
+        #if (/digital locks?/i && ! /digital handcuffs/) {$match = 1;$pasta = $digital_locks_pasta}
+        #if (/drm|digital rights management/i && ! /lead you unawares|If you want to criticize copyright/) {$match = 1;$pasta = $drm_pasta}
+        #if (/ecosystem/i && ! /implicitly suggests an attitude/) {$match = 1;$pasta = $eco_pasta}
+        #if (/freeware|free.ware/i && ! /often in the 1980s/) {$match = 1;$pasta = $freeware_pasta}
+        #if (/give away software/i && ! /This locution has/) {$match = 1;$pasta = $give_pasta}
+        #if (/hacker/i && ! /playful cleverness--not/) {$match = 1;$pasta = $hacker_pasta}
+        #if (/intellectual property/i && ! /hidden assumption--that|web site revision system/) {$match = 1;$pasta = $ip_pasta}
+        #if (/\slamp/i && ! /glamp/i) {$match = 1;$pasta = $lamp_pasta}
+        #if (/software market/i && ! /is a social movement/i) {$match = 1;$pasta = $market_pasta}
+        #if (/monetize/i && ! /a productive and ethical business/) {$match = 1;$pasta = $monetize_pasta}
+        #if (/mp3 player/i && ! /In the late 1990s/) {$match = 1;$pasta = $mp3_pasta}
+        #if (/open source/i && ! /Free software is a political movement|lump us in with them/) {$match = 1;$pasta = $open_pasta}
+        #if (/ pc(\s|\.)/i && ! /been suggested for a computer running Windows/) {$match = 1;$pasta = $pc_pasta}
         if (/pa?edo(phile)?/i && ! /I am skeptical of the claim/) {$match = 1;$pasta = $pedo_pasta}
-        if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$pasta = $ps_pasta}
-        if (/\spiracy|pirate/i && ! /sharing information with your neighbor|bay/) {$match = 1;$pasta = $piracy_pasta}
-        if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$pasta = $powerpoint_pasta}
-        if (/(drm|copyright) protection/i && ! /If you want to criticize copyright/) {$match = 1;$pasta = $protection_pasta}
-        if (/sell(ing)? software/i && ! /imposing proprietary restrictions/) {$match = 1;$pasta = $sellsoft_pasta}
-        if (/software industry/i && ! /automated production of material goods/) {$match = 1;$pasta = $softwareindustry_pasta}
-        if (/trusted computing/i && ! /scheme to redesign computers/) {$match = 1;$pasta = $trustedcomp_pasta}
-        if (/vendor/i && ! /recommend the general term/) {$match = 1;$pasta = $vendor_pasta}
+        #if (/photoshopped|shooped|shopped/i && ! /one particular image editing program,/) {$match = 1;$pasta = $ps_pasta}
+        #if (/\spiracy|pirate/i && ! /sharing information with your neighbor|bay/) {$match = 1;$pasta = $piracy_pasta}
+        #if (/powerpoint|power point/i && ! /Impress/) {$match = 1;$pasta = $powerpoint_pasta}
+        #if (/(drm|copyright) protection/i && ! /If you want to criticize copyright/) {$match = 1;$pasta = $protection_pasta}
+        #if (/sell(ing)? software/i && ! /imposing proprietary restrictions/) {$match = 1;$pasta = $sellsoft_pasta}
+        #if (/software industry/i && ! /automated production of material goods/) {$match = 1;$pasta = $softwareindustry_pasta}
+        #if (/trusted computing/i && ! /scheme to redesign computers/) {$match = 1;$pasta = $trustedcomp_pasta}
+        #if (/vendor/i && ! /recommend the general term/) {$match = 1;$pasta = $vendor_pasta}
         if (/The most important contributions that the FSF made/ ) {$match = 1;$pasta = $linus_pasta}
         if (/gentoo/i && ! /http://vocaroo.com/i/) {$match = 1;$pasta = $gentoo_pasta}
         if (/L\s*(i\W*n\W*u\W*|l\W*u\W*n\W*i\W*|o\W*o\W*n\W*i\W*)x(?!\s+kernel)/ix && ! /(GNU|Gah?n(oo|ew))\s*(.|plus|with|and|slash)\s*(L(oo|i|u)n(oo|i|u)(x|cks))/i) {$match = 1;$pasta = $gnulinux_pasta}
@@ -517,6 +680,11 @@ sub interject {
     if ($vericode =~ /^\s*$/){print "Skipping Post\n\n";return} #skip post if blank input
     my ($url, $post_no, $page, $image_limit) = @_;
     my ($form, $interjection, $submit_button, $pic);
+    	foreach my $replace (@replacements) {
+        if (int(rand(2)) eq 0) {
+        &{$replace}($pasta);
+   	 }
+	}
     $interjection = ">>$post_no\n" . $pasta;
     $pic = &select_pic;
     &log_msg("attached pic: $pic");
